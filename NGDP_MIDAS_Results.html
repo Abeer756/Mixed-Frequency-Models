@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <title>MIDAS Model Results - Nominal GDP Growth</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+            .container { max-width: 1200px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+            h1 { color: #2c3e50; text-align: center; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #34495e; margin-top: 30px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 12px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+            th { background-color: #3498db; color: white; font-weight: bold; }
+            tr:nth-child(even) { background-color: #f9f9f9; }
+            .reliable { background-color: #d4edda !important; }
+            .problematic { background-color: #f8d7da !important; }
+            .best { background-color: #fff3cd !important; font-weight: bold; }
+            .summary-box { background: #ecf0f1; padding: 15px; border-radius: 5px; margin: 10px 0; }
+            .metric { font-family: monospace; background: #f1c40f; padding: 2px 5px; border-radius: 3px; }
+            .status-ok { background-color: #2ecc71; color: white; padding: 2px 6px; border-radius: 10px; font-size: 10px; }
+            .status-problem { background-color: #e74c3c; color: white; padding: 2px 6px; border-radius: 10px; font-size: 10px; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>MIDAS Model Analysis Results</h1>
+            <h2>Mixed-Frequency Data Sampling for Nominal GDP Growth</h2>
+            
+            <div class="summary-box">
+                <strong>Analysis Summary:</strong><br>
+                • Total Models Tested: <span class="metric">11</span><br>
+                • Reliable Models: <span class="metric">10</span><br>
+                • Best AIC Score: <span class="metric">282.8</span><br>
+                • Highest R²: <span class="metric">83.5%</span><br>
+                • Analysis Date: <span class="metric">2025-11-04</span>
+            </div>
+    
+            <h2>Complete MIDAS Leaderboard</h2>
+            <p><em>Models ranked by AIC. Green = Reliable, Red = Problematic, Yellow = Best Overall</em></p>
+            <table>
+                <tr>
+                    <th>Model ID</th>
+                    <th>Group</th>
+                    <th>Predictors</th>
+                    <th>L</th>
+                    <th>AIC</th>
+                    <th>BIC</th>
+                    <th>R²</th>
+                    <th>Adj R²</th>
+                    <th>RMSE</th>
+                    <th>MAE</th>
+                    <th>MASE</th>
+                    <th>Status</th>
+                </tr><tr class="best">
+          <td>6</td>
+          <td>E1_price</td>
+          <td style="font-size:10px;">oil_price_g,<br>noil_omani_exports_g,<br>M1_g</td>
+          <td>4</td>
+          <td>282.8</td>
+          <td>304.68</td>
+          <td>82.5%</td>
+          <td>78.9%</td>
+          <td>5.571</td>
+          <td>4.229</td>
+          <td>0.834</td>
+          <td><span class="status-ok">OK</span></td>
+      </tr><tr class="reliable">
+          <td>4</td>
+          <td>D1_oilex</td>
+          <td style="font-size:10px;">oil_gaz_exports_g,<br>noil_omani_exports_g,<br>M1_g</td>
+          <td>4</td>
+          <td>284.38</td>
+          <td>306.26</td>
+          <td>81.9%</td>
+          <td>78.2%</td>
+          <td>5.523</td>
+          <td>4.397</td>
+          <td>0.867</td>
+          <td><span class="status-ok">OK</span></td>
+      </tr><tr class="reliable">
+          <td>10</td>
+          <td>F1_minimal</td>
+          <td style="font-size:10px;">oil_gaz_exports_g,<br>M1_g</td>
+          <td>4</td>
+          <td>284.83</td>
+          <td>302.73</td>
+          <td>80.4%</td>
+          <td>77.4%</td>
+          <td>5.575</td>
+          <td>4.314</td>
+          <td>0.851</td>
+          <td><span class="status-ok">OK</span></td>
+      </tr><tr class="problematic">
+          <td>2</td>
+          <td>B1_oilex</td>
+          <td style="font-size:10px;">oil_gaz_exports_g,<br>noil_omani_exports_g,<br>re_exports_g,<br>tot_mer_imports_g,<br>M1_g</td>
+          <td>4</td>
+          <td>287.43</td>
+          <td>317.27</td>
+          <td>83.5%</td>
+          <td>78.2%</td>
+          <td>5.647</td>
+          <td>4.314</td>
+          <td>0.851</td>
+          <td><span class="status-problem">SEVERE</span></td>
+      </tr><tr class="reliable">
+          <td>11</td>
+          <td>F2_minimal</td>
+          <td style="font-size:10px;">oil_price_g,<br>M1_g</td>
+          <td>4</td>
+          <td>288.1</td>
+          <td>306</td>
+          <td>79.2%</td>
+          <td>76%</td>
+          <td>5.591</td>
+          <td>4.107</td>
+          <td>0.81</td>
+          <td><span class="status-ok">OK</span></td>
+      </tr><tr class="reliable">
+          <td>7</td>
+          <td>E2_price</td>
+          <td style="font-size:10px;">oil_price_g,<br>noil_omani_exports_g,<br>M2_g</td>
+          <td>4</td>
+          <td>292</td>
+          <td>313.88</td>
+          <td>79.2%</td>
+          <td>74.9%</td>
+          <td>5.072</td>
+          <td>4.289</td>
+          <td>0.846</td>
+          <td><span class="status-ok">OK</span></td>
+      </tr><tr class="reliable">
+          <td>1</td>
+          <td>A_oilex</td>
+          <td style="font-size:10px;">oil_gaz_exports_g,<br>noil_omani_exports_g,<br>re_exports_g,<br>tot_mer_imports_g</td>
+          <td>4</td>
+          <td>296.73</td>
+          <td>322.59</td>
+          <td>78.9%</td>
+          <td>73.4%</td>
+          <td>5.522</td>
+          <td>4.441</td>
+          <td>0.876</td>
+          <td><span class="status-ok">MODERATE</span></td>
+      </tr><tr class="reliable">
+          <td>5</td>
+          <td>D2_oilex</td>
+          <td style="font-size:10px;">oil_gaz_exports_g,<br>noil_omani_exports_g,<br>M2_g</td>
+          <td>4</td>
+          <td>299.32</td>
+          <td>321.2</td>
+          <td>76.2%</td>
+          <td>71.3%</td>
+          <td>4.929</td>
+          <td>4.329</td>
+          <td>0.854</td>
+          <td><span class="status-ok">MODERATE</span></td>
+      </tr><tr class="reliable">
+          <td>3</td>
+          <td>B2_oilex</td>
+          <td style="font-size:10px;">oil_gaz_exports_g,<br>noil_omani_exports_g,<br>re_exports_g,<br>tot_mer_imports_g,<br>M2_g</td>
+          <td>4</td>
+          <td>301.41</td>
+          <td>331.25</td>
+          <td>78.6%</td>
+          <td>71.7%</td>
+          <td>5.137</td>
+          <td>4.276</td>
+          <td>0.844</td>
+          <td><span class="status-ok">MODERATE</span></td>
+      </tr><tr class="reliable">
+          <td>8</td>
+          <td>D1_prod</td>
+          <td style="font-size:10px;">d_avg_prod_g,<br>noil_omani_exports_g,<br>M1_g</td>
+          <td>5</td>
+          <td>343.36</td>
+          <td>365.24</td>
+          <td>46.1%</td>
+          <td>35.1%</td>
+          <td>6.188</td>
+          <td>5.672</td>
+          <td>1.119</td>
+          <td><span class="status-ok">OK</span></td>
+      </tr><tr class="reliable">
+          <td>9</td>
+          <td>D2_prod</td>
+          <td style="font-size:10px;">d_avg_prod_g,<br>noil_omani_exports_g,<br>M2_g</td>
+          <td>4</td>
+          <td>347.73</td>
+          <td>369.61</td>
+          <td>41.6%</td>
+          <td>29.7%</td>
+          <td>6.433</td>
+          <td>5.48</td>
+          <td>1.081</td>
+          <td><span class="status-ok">OK</span></td>
+      </tr></table>
+            <h2>Recommended Models (Reliable)</h2>
+            <p><em>Models with good numerical stability - recommended for forecasting</em></p>
+            <table>
+                <tr>
+                    <th>Model ID</th>
+                    <th>Group</th>
+                    <th>AIC</th>
+                    <th>R²</th>
+                    <th>RMSE</th>
+                    <th>MASE</th>
+                    <th>Status</th>
+                </tr><tr class="best">
+            <td>6</td>
+            <td>E1_price</td>
+            <td>282.8</td>
+            <td>82.5%</td>
+            <td>5.571</td>
+            <td>0.834</td>
+            <td><span class="status-ok">OK</span></td>
+        </tr><tr >
+            <td>4</td>
+            <td>D1_oilex</td>
+            <td>284.38</td>
+            <td>81.9%</td>
+            <td>5.523</td>
+            <td>0.867</td>
+            <td><span class="status-ok">OK</span></td>
+        </tr><tr >
+            <td>10</td>
+            <td>F1_minimal</td>
+            <td>284.83</td>
+            <td>80.4%</td>
+            <td>5.575</td>
+            <td>0.851</td>
+            <td><span class="status-ok">OK</span></td>
+        </tr><tr >
+            <td>11</td>
+            <td>F2_minimal</td>
+            <td>288.1</td>
+            <td>79.2%</td>
+            <td>5.591</td>
+            <td>0.81</td>
+            <td><span class="status-ok">OK</span></td>
+        </tr><tr >
+            <td>7</td>
+            <td>E2_price</td>
+            <td>292</td>
+            <td>79.2%</td>
+            <td>5.072</td>
+            <td>0.846</td>
+            <td><span class="status-ok">OK</span></td>
+        </tr><tr >
+            <td>1</td>
+            <td>A_oilex</td>
+            <td>296.73</td>
+            <td>78.9%</td>
+            <td>5.522</td>
+            <td>0.876</td>
+            <td><span class="status-ok">MODERATE</span></td>
+        </tr><tr >
+            <td>5</td>
+            <td>D2_oilex</td>
+            <td>299.32</td>
+            <td>76.2%</td>
+            <td>4.929</td>
+            <td>0.854</td>
+            <td><span class="status-ok">MODERATE</span></td>
+        </tr><tr >
+            <td>3</td>
+            <td>B2_oilex</td>
+            <td>301.41</td>
+            <td>78.6%</td>
+            <td>5.137</td>
+            <td>0.844</td>
+            <td><span class="status-ok">MODERATE</span></td>
+        </tr><tr >
+            <td>8</td>
+            <td>D1_prod</td>
+            <td>343.36</td>
+            <td>46.1%</td>
+            <td>6.188</td>
+            <td>1.119</td>
+            <td><span class="status-ok">OK</span></td>
+        </tr><tr >
+            <td>9</td>
+            <td>D2_prod</td>
+            <td>347.73</td>
+            <td>41.6%</td>
+            <td>6.433</td>
+            <td>1.081</td>
+            <td><span class="status-ok">OK</span></td>
+        </tr></table>
+            <h2>Best Model per Group</h2>
+            <table>
+                <tr>
+                    <th>Group</th>
+                    <th>AIC</th>
+                    <th>BIC</th>
+                    <th>R²</th>
+                    <th>RMSE</th>
+                    <th>MASE</th>
+                    <th>Status</th>
+                </tr><tr class="best">
+            <td>E1_price</td>
+            <td>282.8</td>
+            <td>304.68</td>
+            <td>82.5%</td>
+            <td>5.571</td>
+            <td>0.834</td>
+            <td><span class="status-ok">OK</span></td>
+        </tr><tr >
+            <td>D1_oilex</td>
+            <td>284.38</td>
+            <td>306.26</td>
+            <td>81.9%</td>
+            <td>5.523</td>
+            <td>0.867</td>
+            <td><span class="status-ok">OK</span></td>
+        </tr><tr >
+            <td>F1_minimal</td>
+            <td>284.83</td>
+            <td>302.73</td>
+            <td>80.4%</td>
+            <td>5.575</td>
+            <td>0.851</td>
+            <td><span class="status-ok">OK</span></td>
+        </tr><tr >
+            <td>B1_oilex</td>
+            <td>287.43</td>
+            <td>317.27</td>
+            <td>83.5%</td>
+            <td>5.647</td>
+            <td>0.851</td>
+            <td><span class="status-problem">SEVERE</span></td>
+        </tr><tr >
+            <td>F2_minimal</td>
+            <td>288.1</td>
+            <td>306</td>
+            <td>79.2%</td>
+            <td>5.591</td>
+            <td>0.81</td>
+            <td><span class="status-ok">OK</span></td>
+        </tr><tr >
+            <td>E2_price</td>
+            <td>292</td>
+            <td>313.88</td>
+            <td>79.2%</td>
+            <td>5.072</td>
+            <td>0.846</td>
+            <td><span class="status-ok">OK</span></td>
+        </tr><tr >
+            <td>A_oilex</td>
+            <td>296.73</td>
+            <td>322.59</td>
+            <td>78.9%</td>
+            <td>5.522</td>
+            <td>0.876</td>
+            <td><span class="status-ok">MODERATE</span></td>
+        </tr><tr >
+            <td>D2_oilex</td>
+            <td>299.32</td>
+            <td>321.2</td>
+            <td>76.2%</td>
+            <td>4.929</td>
+            <td>0.854</td>
+            <td><span class="status-ok">MODERATE</span></td>
+        </tr><tr >
+            <td>B2_oilex</td>
+            <td>301.41</td>
+            <td>331.25</td>
+            <td>78.6%</td>
+            <td>5.137</td>
+            <td>0.844</td>
+            <td><span class="status-ok">MODERATE</span></td>
+        </tr><tr >
+            <td>D1_prod</td>
+            <td>343.36</td>
+            <td>365.24</td>
+            <td>46.1%</td>
+            <td>6.188</td>
+            <td>1.119</td>
+            <td><span class="status-ok">OK</span></td>
+        </tr><tr >
+            <td>D2_prod</td>
+            <td>347.73</td>
+            <td>369.61</td>
+            <td>41.6%</td>
+            <td>6.433</td>
+            <td>1.081</td>
+            <td><span class="status-ok">OK</span></td>
+        </tr></table>
+            <h2>Model Specifications Tested</h2>
+            <ul>
+                <li><strong>A_oilex:</strong> Oil & Gas exports, Non-oil Omani exports, Re-exports, Total imports</li>
+                <li><strong>B1_oilex:</strong> A_oilex + Narrow Money (M1)</li>
+                <li><strong>B2_oilex:</strong> A_oilex + Broad Money (M2)</li>
+                <li><strong>D1_oilex:</strong> Oil & Gas exports, Non-oil Omani exports, M1 (lean)</li>
+                <li><strong>D2_oilex:</strong> Oil & Gas exports, Non-oil Omani exports, M2 (lean)</li>
+                <li><strong>E1_price:</strong> Oil price, Non-oil Omani exports, M1</li>
+                <li><strong>E2_price:</strong> Oil price, Non-oil Omani exports, M2</li>
+                <li><strong>D1_prod:</strong> Daily oil production, Non-oil Omani exports, M1</li>
+                <li><strong>D2_prod:</strong> Daily oil production, Non-oil Omani exports, M2</li>
+                <li><strong>F1_minimal:</strong> Oil & Gas exports, M1 (minimal)</li>
+                <li><strong>F2_minimal:</strong> Oil price, M1 (minimal)</li>
+            </ul>
+            
+            <h2>Key Findings</h2>
+            <div class="summary-box">
+                <p><strong>Recommendations:</strong></p>
+                <ul>
+                    <li>Use only models flagged as <span class="status-ok">OK</span> or <span class="status-ok">MODERATE</span> for forecasting</li>
+                    <li>Lean specifications generally outperform complex models</li>
+                    <li>Avoid using oil price and oil exports together (multicollinearity)</li>
+                    <li>Both M1 and M2 show predictive power for nominal GDP growth</li>
+                </ul>
+            </div>
+            
+            <h2>Technical Notes</h2>
+            <p><em>MIDAS (Mixed-Frequency Data Sampling) allows incorporation of monthly predictors into quarterly GDP models without temporal aggregation. Models are evaluated using AIC, out-of-sample metrics (RMSE, MAE, MASE), and numerical stability diagnostics.</em></p>
+            
+        </div>
+    </body>
+    </html>

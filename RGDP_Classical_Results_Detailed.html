@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Classical Model Results - Real GDP Growth (Detailed)</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+    .container { max-width: 1600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h1 { color: #2c3e50; text-align: center; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+    h2 { color: #34495e; margin-top: 30px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; }
+    h3 { color: #2c3e50; margin-top: 20px; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 12px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+    th { background-color: #3498db; color: white; font-weight: bold; }
+    tr:nth-child(even) { background-color: #f9f9f9; }
+    .best { background-color: #fff3cd !important; font-weight: bold; }
+    .model-box { margin: 25px 0; border: 2px solid #3498db; border-radius: 10px; padding: 20px; background: #fafbfc; }
+    .coef-table { width: 100%; font-size: 11px; margin: 15px 0; }
+    .coef-table th { background-color: #34495e; color: white; }
+    /* Coefficient coloring linked to p-values */
+    .coef-sig-pos-strong { color: #1e8449; font-weight: bold; }  /* p < 0.01, positive */
+    .coef-sig-neg-strong { color: #c0392b; font-weight: bold; }  /* p < 0.01, negative */
+    .coef-sig-pos { color: #27ae60; font-weight: bold; }         /* 0.01 <= p < 0.05, positive */
+    .coef-sig-neg { color: #e74c3c; font-weight: bold; }         /* 0.01 <= p < 0.05, negative */
+    .coef-weak-pos { color: #f39c12; font-weight: bold; }        /* 0.05 <= p < 0.10, positive */
+    .coef-weak-neg { color: #d35400; font-weight: bold; }        /* 0.05 <= p < 0.10, negative */
+    .coef-ns { color: #7f8c8d; }                                 /* p >= 0.10 or NA */
+    .sig-high { background-color: #1e8449; color: white; padding: 2px 4px; border-radius: 10px; font-size: 9px; }
+    .sig-med { background-color: #27ae60; color: white; padding: 2px 4px; border-radius: 10px; font-size: 9px; }
+    .sig-low { background-color: #f39c12; color: white; padding: 2px 4px; border-radius: 10px; font-size: 9px; }
+    .sig-none { color: #7f8c8d; padding: 2px 4px; font-size: 9px; }
+    .diagnostics { background: #e8f5e8; padding: 12px; border-radius: 5px; margin-top: 15px; font-size: 11px; }
+    code { background: #f1f1f1; padding: 1px 4px; border-radius: 3px; font-size: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Classical (Quarterly) Model Analysis Results</h1>
+    <h2>Aggregated Monthly Predictors → Quarterly OLS for Real GDP Growth</h2>
+    <div style="background: #ecf0f1; padding: 15px; border-radius: 5px; margin: 10px 0;">
+      <strong>Analysis Summary:</strong><br>
+      • Total Models Tested: <strong>10</strong><br>
+      • Best AIC Score: <strong>251.11</strong><br>
+      • Highest R²: <strong>87.6%</strong><br>
+      • Analysis Date: <strong>2025-11-04</strong>
+    </div>
+    <h2>Classical Leaderboard</h2>
+    <table>
+      <tr>
+        <th>Model</th><th>Group</th><th>Predictors</th>        <th>AIC</th><th>BIC</th><th>R²</th><th>Adj R²</th><th>RMSE</th><th>MAE</th><th>MASE</th>        <th>Ljung p</th><th>BP p</th>      </tr>      <tr class="best"><td>1</td><td>A_oilex</td><td style="font-size:10px; text-align:left;">oil_gaz_exports_g, noil_omani_exports_g, re_exports_g, tot_mer_imports_g</td><td>251.11</td><td>269.01</td><td>86.7%</td><td>84.7%</td><td>2.580</td><td>2.003</td><td>0.958</td><td>0.562</td><td>0.261</td></tr>      <tr><td>5</td><td>C2_oilex</td><td style="font-size:10px; text-align:left;">oil_gaz_exports_g, noil_omani_exports_g, re_exports_g, tot_mer_imports_g, M2_g, oil_price_g</td><td>251.31</td><td>273.18</td><td>87.6%</td><td>85.1%</td><td>2.400</td><td>1.762</td><td>0.842</td><td>0.749</td><td>0.517</td></tr>      <tr><td>4</td><td>C1_oilex</td><td style="font-size:10px; text-align:left;">oil_gaz_exports_g, noil_omani_exports_g, re_exports_g, tot_mer_imports_g, M1_g, oil_price_g</td><td>251.46</td><td>273.34</td><td>87.6%</td><td>85.1%</td><td>2.405</td><td>1.842</td><td>0.881</td><td>0.743</td><td>0.485</td></tr>      <tr><td>3</td><td>B2_oilex</td><td style="font-size:10px; text-align:left;">oil_gaz_exports_g, noil_omani_exports_g, re_exports_g, tot_mer_imports_g, M2_g</td><td>251.73</td><td>271.61</td><td>87.1%</td><td>84.8%</td><td>2.535</td><td>1.767</td><td>0.845</td><td>0.749</td><td>0.448</td></tr>      <tr><td>2</td><td>B1_oilex</td><td style="font-size:10px; text-align:left;">oil_gaz_exports_g, noil_omani_exports_g, re_exports_g, tot_mer_imports_g, M1_g</td><td>252.53</td><td>272.42</td><td>86.9%</td><td>84.5%</td><td>2.553</td><td>1.953</td><td>0.934</td><td>0.676</td><td>0.369</td></tr>      <tr><td>8</td><td>B2_prod</td><td style="font-size:10px; text-align:left;">d_avg_prod_g, noil_omani_exports_g, re_exports_g, tot_mer_imports_g, M2_g</td><td>256.08</td><td>275.97</td><td>86%</td><td>83.5%</td><td>2.690</td><td>1.790</td><td>0.856</td><td>0.844</td><td>0.408</td></tr>      <tr><td>6</td><td>A_prod</td><td style="font-size:10px; text-align:left;">d_avg_prod_g, noil_omani_exports_g, re_exports_g, tot_mer_imports_g</td><td>257.02</td><td>274.92</td><td>85.2%</td><td>82.9%</td><td>2.714</td><td>1.987</td><td>0.950</td><td>0.507</td><td>0.222</td></tr>      <tr><td>10</td><td>C2_prod</td><td style="font-size:10px; text-align:left;">d_avg_prod_g, noil_omani_exports_g, re_exports_g, tot_mer_imports_g, M2_g, oil_price_g</td><td>257.43</td><td>279.31</td><td>86.1%</td><td>83.3%</td><td>2.719</td><td>1.811</td><td>0.866</td><td>0.815</td><td>0.543</td></tr>      <tr><td>7</td><td>B1_prod</td><td style="font-size:10px; text-align:left;">d_avg_prod_g, noil_omani_exports_g, re_exports_g, tot_mer_imports_g, M1_g</td><td>258.62</td><td>278.51</td><td>85.3%</td><td>82.7%</td><td>2.701</td><td>1.960</td><td>0.937</td><td>0.587</td><td>0.316</td></tr>      <tr><td>9</td><td>C1_prod</td><td style="font-size:10px; text-align:left;">d_avg_prod_g, noil_omani_exports_g, re_exports_g, tot_mer_imports_g, M1_g, oil_price_g</td><td>259.83</td><td>281.71</td><td>85.5%</td><td>82.6%</td><td>2.748</td><td>1.983</td><td>0.948</td><td>0.585</td><td>0.451</td></tr>    </table>
+    <h2>Coefficient Estimates (Robust p-values)</h2>
+    <div style="font-size:11px; background:#f6f8fa; padding:10px; border-radius:6px;">
+      <strong>Color legend (linked to p-values):</strong>
+      <ul style="margin:6px 0 0 18px;">
+        <li><span class="coef-sig-pos-strong">dark green</span>/<span class="coef-sig-neg-strong">dark red</span>: p < 0.01</li>
+        <li><span class="coef-sig-pos">green</span>/<span class="coef-sig-neg">red</span>: 0.01 ≤ p < 0.05</li>
+        <li><span class="coef-weak-pos">amber</span>/<span class="coef-weak-neg">amber</span>: 0.05 ≤ p < 0.10</li>
+        <li><span class="coef-ns">grey</span>: p ≥ 0.10 (not significant)</li>
+      </ul>
+    </div>
+    <div class="model-box">
+      <h3>Group: A_oilex — Model 1</h3>
+      <table class="coef-table">
+        <tr><th style="text-align:left;">Variable</th><th>Estimate</th><th>Std. Beta</th><th>p-value</th><th>Sig.</th></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Oil & Gaz Exports</td><td><span class="coef-sig-pos-strong">0.166572</span></td><td>0.170722</td><td>0.007472</td><td>2</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Total Recorded Merchandise Imports</td><td><span class="coef-ns">0.089010</span></td><td>0.083434</td><td>0.261385</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Re-Exports</td><td><span class="coef-ns">0.034892</span></td><td>0.055169</td><td>0.312076</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Non-Oil Omani Exports</td><td><span class="coef-ns">-0.006031</span></td><td>-0.010458</td><td>0.889787</td><td>5</td></tr>
+      </table>
+      <div class="diagnostics">
+        <strong>Diagnostics</strong><br>
+        • Residual Std. Error: <code>2.270</code> | Observations: <code>54</code><br>
+        • AIC: <code>251.11</code> | BIC: <code>269.01</code><br>
+        • Ljung-Box p: <code>0.562</code> | BP p: <code>0.261</code>
+      </div>
+    </div>
+    <div class="model-box">
+      <h3>Group: A_prod — Model 6</h3>
+      <table class="coef-table">
+        <tr><th style="text-align:left;">Variable</th><th>Estimate</th><th>Std. Beta</th><th>p-value</th><th>Sig.</th></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Re-Exports</td><td><span class="coef-ns">0.044267</span></td><td>0.069991</td><td>0.151142</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Total Recorded Merchandise Imports</td><td><span class="coef-ns">0.096064</span></td><td>0.090046</td><td>0.217483</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Daily Average Oil Production</td><td><span class="coef-ns">0.443511</span></td><td>0.090812</td><td>0.251547</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Non-Oil Omani Exports</td><td><span class="coef-ns">0.015324</span></td><td>0.026572</td><td>0.718137</td><td>5</td></tr>
+      </table>
+      <div class="diagnostics">
+        <strong>Diagnostics</strong><br>
+        • Residual Std. Error: <code>2.397</code> | Observations: <code>54</code><br>
+        • AIC: <code>257.02</code> | BIC: <code>274.92</code><br>
+        • Ljung-Box p: <code>0.507</code> | BP p: <code>0.222</code>
+      </div>
+    </div>
+    <div class="model-box">
+      <h3>Group: B1_oilex — Model 2</h3>
+      <table class="coef-table">
+        <tr><th style="text-align:left;">Variable</th><th>Estimate</th><th>Std. Beta</th><th>p-value</th><th>Sig.</th></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Oil & Gaz Exports</td><td><span class="coef-sig-pos-strong">0.169045</span></td><td>0.173257</td><td>0.007540</td><td>2</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Total Recorded Merchandise Imports</td><td><span class="coef-ns">0.091714</span></td><td>0.085968</td><td>0.228810</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Re-Exports</td><td><span class="coef-ns">0.037671</span></td><td>0.059563</td><td>0.294511</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Narrow Money (M1)</td><td><span class="coef-ns">-0.173064</span></td><td>-0.048536</td><td>0.485675</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Non-Oil Omani Exports</td><td><span class="coef-ns">-0.011273</span></td><td>-0.019547</td><td>0.795302</td><td>5</td></tr>
+      </table>
+      <div class="diagnostics">
+        <strong>Diagnostics</strong><br>
+        • Residual Std. Error: <code>2.282</code> | Observations: <code>54</code><br>
+        • AIC: <code>252.53</code> | BIC: <code>272.42</code><br>
+        • Ljung-Box p: <code>0.676</code> | BP p: <code>0.369</code>
+      </div>
+    </div>
+    <div class="model-box">
+      <h3>Group: B1_prod — Model 7</h3>
+      <table class="coef-table">
+        <tr><th style="text-align:left;">Variable</th><th>Estimate</th><th>Std. Beta</th><th>p-value</th><th>Sig.</th></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Re-Exports</td><td><span class="coef-ns">0.046734</span></td><td>0.073892</td><td>0.150346</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Total Recorded Merchandise Imports</td><td><span class="coef-ns">0.098256</span></td><td>0.092100</td><td>0.195337</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Daily Average Oil Production</td><td><span class="coef-ns">0.452712</span></td><td>0.092696</td><td>0.252715</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Narrow Money (M1)</td><td><span class="coef-ns">-0.151933</span></td><td>-0.042610</td><td>0.534975</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Non-Oil Omani Exports</td><td><span class="coef-ns">0.010981</span></td><td>0.019041</td><td>0.795070</td><td>5</td></tr>
+      </table>
+      <div class="diagnostics">
+        <strong>Diagnostics</strong><br>
+        • Residual Std. Error: <code>2.415</code> | Observations: <code>54</code><br>
+        • AIC: <code>258.62</code> | BIC: <code>278.51</code><br>
+        • Ljung-Box p: <code>0.587</code> | BP p: <code>0.316</code>
+      </div>
+    </div>
+    <div class="model-box">
+      <h3>Group: B2_oilex — Model 3</h3>
+      <table class="coef-table">
+        <tr><th style="text-align:left;">Variable</th><th>Estimate</th><th>Std. Beta</th><th>p-value</th><th>Sig.</th></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Oil & Gaz Exports</td><td><span class="coef-sig-pos">0.158240</span></td><td>0.162183</td><td>0.012576</td><td>3</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Broad Money (M2)</td><td><span class="coef-ns">-0.540372</span></td><td>-0.066353</td><td>0.129351</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Re-Exports</td><td><span class="coef-ns">0.046196</span></td><td>0.073042</td><td>0.219334</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Total Recorded Merchandise Imports</td><td><span class="coef-ns">0.083059</span></td><td>0.077856</td><td>0.276446</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Non-Oil Omani Exports</td><td><span class="coef-ns">-0.000889</span></td><td>-0.001542</td><td>0.983942</td><td>5</td></tr>
+      </table>
+      <div class="diagnostics">
+        <strong>Diagnostics</strong><br>
+        • Residual Std. Error: <code>2.266</code> | Observations: <code>54</code><br>
+        • AIC: <code>251.73</code> | BIC: <code>271.61</code><br>
+        • Ljung-Box p: <code>0.749</code> | BP p: <code>0.448</code>
+      </div>
+    </div>
+    <div class="model-box">
+      <h3>Group: B2_prod — Model 8</h3>
+      <table class="coef-table">
+        <tr><th style="text-align:left;">Variable</th><th>Estimate</th><th>Std. Beta</th><th>p-value</th><th>Sig.</th></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Broad Money (M2)</td><td><span class="coef-sig-neg">-0.828650</span></td><td>-0.101751</td><td>0.039910</td><td>3</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Re-Exports</td><td><span class="coef-weak-pos">0.057873</span></td><td>0.091505</td><td>0.093027</td><td>4</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Daily Average Oil Production</td><td><span class="coef-ns">0.517907</span></td><td>0.106045</td><td>0.156458</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Total Recorded Merchandise Imports</td><td><span class="coef-ns">0.077726</span></td><td>0.072856</td><td>0.311761</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Non-Oil Omani Exports</td><td><span class="coef-ns">0.020950</span></td><td>0.036328</td><td>0.627553</td><td>5</td></tr>
+      </table>
+      <div class="diagnostics">
+        <strong>Diagnostics</strong><br>
+        • Residual Std. Error: <code>2.359</code> | Observations: <code>54</code><br>
+        • AIC: <code>256.08</code> | BIC: <code>275.97</code><br>
+        • Ljung-Box p: <code>0.844</code> | BP p: <code>0.408</code>
+      </div>
+    </div>
+    <div class="model-box">
+      <h3>Group: C1_oilex — Model 4</h3>
+      <table class="coef-table">
+        <tr><th style="text-align:left;">Variable</th><th>Estimate</th><th>Std. Beta</th><th>p-value</th><th>Sig.</th></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Oil & Gaz Exports</td><td><span class="coef-sig-pos-strong">0.316378</span></td><td>0.324262</td><td>0.001462</td><td>2</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Average oil price</td><td><span class="coef-weak-neg">-0.136599</span></td><td>-0.184506</td><td>0.075164</td><td>4</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Total Recorded Merchandise Imports</td><td><span class="coef-ns">0.083529</span></td><td>0.078296</td><td>0.250324</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Re-Exports</td><td><span class="coef-ns">0.036568</span></td><td>0.057819</td><td>0.297333</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Narrow Money (M1)</td><td><span class="coef-ns">-0.132308</span></td><td>-0.037106</td><td>0.585198</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Non-Oil Omani Exports</td><td><span class="coef-ns">0.008081</span></td><td>0.014013</td><td>0.855295</td><td>5</td></tr>
+      </table>
+      <div class="diagnostics">
+        <strong>Diagnostics</strong><br>
+        • Residual Std. Error: <code>2.244</code> | Observations: <code>54</code><br>
+        • AIC: <code>251.46</code> | BIC: <code>273.34</code><br>
+        • Ljung-Box p: <code>0.743</code> | BP p: <code>0.485</code>
+      </div>
+    </div>
+    <div class="model-box">
+      <h3>Group: C1_prod — Model 9</h3>
+      <table class="coef-table">
+        <tr><th style="text-align:left;">Variable</th><th>Estimate</th><th>Std. Beta</th><th>p-value</th><th>Sig.</th></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Re-Exports</td><td><span class="coef-ns">0.044484</span></td><td>0.070336</td><td>0.187214</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Total Recorded Merchandise Imports</td><td><span class="coef-ns">0.099159</span></td><td>0.092947</td><td>0.208765</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Average oil price</td><td><span class="coef-ns">0.045709</span></td><td>0.061739</td><td>0.342879</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Daily Average Oil Production</td><td><span class="coef-ns">0.319771</span></td><td>0.065476</td><td>0.427842</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Narrow Money (M1)</td><td><span class="coef-ns">-0.171697</span></td><td>-0.048153</td><td>0.490236</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Non-Oil Omani Exports</td><td><span class="coef-ns">-0.001979</span></td><td>-0.003432</td><td>0.964186</td><td>5</td></tr>
+      </table>
+      <div class="diagnostics">
+        <strong>Diagnostics</strong><br>
+        • Residual Std. Error: <code>2.424</code> | Observations: <code>54</code><br>
+        • AIC: <code>259.83</code> | BIC: <code>281.71</code><br>
+        • Ljung-Box p: <code>0.585</code> | BP p: <code>0.451</code>
+      </div>
+    </div>
+    <div class="model-box">
+      <h3>Group: C2_oilex — Model 5</h3>
+      <table class="coef-table">
+        <tr><th style="text-align:left;">Variable</th><th>Estimate</th><th>Std. Beta</th><th>p-value</th><th>Sig.</th></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Oil & Gaz Exports</td><td><span class="coef-sig-pos-strong">0.297047</span></td><td>0.304449</td><td>0.004261</td><td>2</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Average oil price</td><td><span class="coef-ns">-0.125257</span></td><td>-0.169186</td><td>0.117940</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Re-Exports</td><td><span class="coef-ns">0.041479</span></td><td>0.065584</td><td>0.258480</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Total Recorded Merchandise Imports</td><td><span class="coef-ns">0.078405</span></td><td>0.073493</td><td>0.286006</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Broad Money (M2)</td><td><span class="coef-ns">-0.334531</span></td><td>-0.041078</td><td>0.389123</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Non-Oil Omani Exports</td><td><span class="coef-ns">0.013767</span></td><td>0.023872</td><td>0.763461</td><td>5</td></tr>
+      </table>
+      <div class="diagnostics">
+        <strong>Diagnostics</strong><br>
+        • Residual Std. Error: <code>2.240</code> | Observations: <code>54</code><br>
+        • AIC: <code>251.31</code> | BIC: <code>273.18</code><br>
+        • Ljung-Box p: <code>0.749</code> | BP p: <code>0.517</code>
+      </div>
+    </div>
+    <div class="model-box">
+      <h3>Group: C2_prod — Model 10</h3>
+      <table class="coef-table">
+        <tr><th style="text-align:left;">Variable</th><th>Estimate</th><th>Std. Beta</th><th>p-value</th><th>Sig.</th></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Broad Money (M2)</td><td><span class="coef-sig-neg">-0.820109</span></td><td>-0.100702</td><td>0.042104</td><td>3</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Re-Exports</td><td><span class="coef-ns">0.055464</span></td><td>0.087695</td><td>0.119373</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Daily Average Oil Production</td><td><span class="coef-ns">0.398726</span></td><td>0.081642</td><td>0.289084</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Total Recorded Merchandise Imports</td><td><span class="coef-ns">0.078460</span></td><td>0.073544</td><td>0.325797</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Average oil price</td><td><span class="coef-ns">0.040350</span></td><td>0.054502</td><td>0.385476</td><td>5</td></tr>
+        <tr><td style="text-align:left; font-family:monospace; font-size:10px;">Non-Oil Omani Exports</td><td><span class="coef-ns">0.009950</span></td><td>0.017254</td><td>0.826743</td><td>5</td></tr>
+      </table>
+      <div class="diagnostics">
+        <strong>Diagnostics</strong><br>
+        • Residual Std. Error: <code>2.371</code> | Observations: <code>54</code><br>
+        • AIC: <code>257.43</code> | BIC: <code>279.31</code><br>
+        • Ljung-Box p: <code>0.815</code> | BP p: <code>0.543</code>
+      </div>
+    </div>
+    <h2>Standardized Betas (by model)</h2>
+    <table>
+      <tr><th>Model</th><th>Group</th><th>Variable</th><th>Std. Beta</th></tr>
+      <tr><td>1</td><td>A_oilex</td><td style="text-align:left;">Oil & Gaz Exports</td><td>0.170722</td></tr>      <tr><td>1</td><td>A_oilex</td><td style="text-align:left;">Total Recorded Merchandise Imports</td><td>0.083434</td></tr>      <tr><td>1</td><td>A_oilex</td><td style="text-align:left;">Re-Exports</td><td>0.055169</td></tr>      <tr><td>1</td><td>A_oilex</td><td style="text-align:left;">Non-Oil Omani Exports</td><td>-0.010458</td></tr>      <tr><td>6</td><td>A_prod</td><td style="text-align:left;">Daily Average Oil Production</td><td>0.090812</td></tr>      <tr><td>6</td><td>A_prod</td><td style="text-align:left;">Total Recorded Merchandise Imports</td><td>0.090046</td></tr>      <tr><td>6</td><td>A_prod</td><td style="text-align:left;">Re-Exports</td><td>0.069991</td></tr>      <tr><td>6</td><td>A_prod</td><td style="text-align:left;">Non-Oil Omani Exports</td><td>0.026572</td></tr>      <tr><td>2</td><td>B1_oilex</td><td style="text-align:left;">Oil & Gaz Exports</td><td>0.173257</td></tr>      <tr><td>2</td><td>B1_oilex</td><td style="text-align:left;">Total Recorded Merchandise Imports</td><td>0.085968</td></tr>      <tr><td>2</td><td>B1_oilex</td><td style="text-align:left;">Re-Exports</td><td>0.059563</td></tr>      <tr><td>2</td><td>B1_oilex</td><td style="text-align:left;">Narrow Money (M1)</td><td>-0.048536</td></tr>      <tr><td>2</td><td>B1_oilex</td><td style="text-align:left;">Non-Oil Omani Exports</td><td>-0.019547</td></tr>      <tr><td>7</td><td>B1_prod</td><td style="text-align:left;">Daily Average Oil Production</td><td>0.092696</td></tr>      <tr><td>7</td><td>B1_prod</td><td style="text-align:left;">Total Recorded Merchandise Imports</td><td>0.092100</td></tr>      <tr><td>7</td><td>B1_prod</td><td style="text-align:left;">Re-Exports</td><td>0.073892</td></tr>      <tr><td>7</td><td>B1_prod</td><td style="text-align:left;">Narrow Money (M1)</td><td>-0.042610</td></tr>      <tr><td>7</td><td>B1_prod</td><td style="text-align:left;">Non-Oil Omani Exports</td><td>0.019041</td></tr>      <tr><td>3</td><td>B2_oilex</td><td style="text-align:left;">Oil & Gaz Exports</td><td>0.162183</td></tr>      <tr><td>3</td><td>B2_oilex</td><td style="text-align:left;">Total Recorded Merchandise Imports</td><td>0.077856</td></tr>      <tr><td>3</td><td>B2_oilex</td><td style="text-align:left;">Re-Exports</td><td>0.073042</td></tr>      <tr><td>3</td><td>B2_oilex</td><td style="text-align:left;">Broad Money (M2)</td><td>-0.066353</td></tr>      <tr><td>3</td><td>B2_oilex</td><td style="text-align:left;">Non-Oil Omani Exports</td><td>-0.001542</td></tr>      <tr><td>8</td><td>B2_prod</td><td style="text-align:left;">Daily Average Oil Production</td><td>0.106045</td></tr>      <tr><td>8</td><td>B2_prod</td><td style="text-align:left;">Broad Money (M2)</td><td>-0.101751</td></tr>      <tr><td>8</td><td>B2_prod</td><td style="text-align:left;">Re-Exports</td><td>0.091505</td></tr>      <tr><td>8</td><td>B2_prod</td><td style="text-align:left;">Total Recorded Merchandise Imports</td><td>0.072856</td></tr>      <tr><td>8</td><td>B2_prod</td><td style="text-align:left;">Non-Oil Omani Exports</td><td>0.036328</td></tr>      <tr><td>4</td><td>C1_oilex</td><td style="text-align:left;">Oil & Gaz Exports</td><td>0.324262</td></tr>      <tr><td>4</td><td>C1_oilex</td><td style="text-align:left;">Average oil price</td><td>-0.184506</td></tr>      <tr><td>4</td><td>C1_oilex</td><td style="text-align:left;">Total Recorded Merchandise Imports</td><td>0.078296</td></tr>      <tr><td>4</td><td>C1_oilex</td><td style="text-align:left;">Re-Exports</td><td>0.057819</td></tr>      <tr><td>4</td><td>C1_oilex</td><td style="text-align:left;">Narrow Money (M1)</td><td>-0.037106</td></tr>      <tr><td>4</td><td>C1_oilex</td><td style="text-align:left;">Non-Oil Omani Exports</td><td>0.014013</td></tr>      <tr><td>9</td><td>C1_prod</td><td style="text-align:left;">Total Recorded Merchandise Imports</td><td>0.092947</td></tr>      <tr><td>9</td><td>C1_prod</td><td style="text-align:left;">Re-Exports</td><td>0.070336</td></tr>      <tr><td>9</td><td>C1_prod</td><td style="text-align:left;">Daily Average Oil Production</td><td>0.065476</td></tr>      <tr><td>9</td><td>C1_prod</td><td style="text-align:left;">Average oil price</td><td>0.061739</td></tr>      <tr><td>9</td><td>C1_prod</td><td style="text-align:left;">Narrow Money (M1)</td><td>-0.048153</td></tr>      <tr><td>9</td><td>C1_prod</td><td style="text-align:left;">Non-Oil Omani Exports</td><td>-0.003432</td></tr>      <tr><td>5</td><td>C2_oilex</td><td style="text-align:left;">Oil & Gaz Exports</td><td>0.304449</td></tr>      <tr><td>5</td><td>C2_oilex</td><td style="text-align:left;">Average oil price</td><td>-0.169186</td></tr>      <tr><td>5</td><td>C2_oilex</td><td style="text-align:left;">Total Recorded Merchandise Imports</td><td>0.073493</td></tr>      <tr><td>5</td><td>C2_oilex</td><td style="text-align:left;">Re-Exports</td><td>0.065584</td></tr>      <tr><td>5</td><td>C2_oilex</td><td style="text-align:left;">Broad Money (M2)</td><td>-0.041078</td></tr>      <tr><td>5</td><td>C2_oilex</td><td style="text-align:left;">Non-Oil Omani Exports</td><td>0.023872</td></tr>      <tr><td>10</td><td>C2_prod</td><td style="text-align:left;">Broad Money (M2)</td><td>-0.100702</td></tr>      <tr><td>10</td><td>C2_prod</td><td style="text-align:left;">Re-Exports</td><td>0.087695</td></tr>      <tr><td>10</td><td>C2_prod</td><td style="text-align:left;">Daily Average Oil Production</td><td>0.081642</td></tr>      <tr><td>10</td><td>C2_prod</td><td style="text-align:left;">Total Recorded Merchandise Imports</td><td>0.073544</td></tr>      <tr><td>10</td><td>C2_prod</td><td style="text-align:left;">Average oil price</td><td>0.054502</td></tr>      <tr><td>10</td><td>C2_prod</td><td style="text-align:left;">Non-Oil Omani Exports</td><td>0.017254</td></tr>    </table>
+  </div>
+</body>
+</html>
+

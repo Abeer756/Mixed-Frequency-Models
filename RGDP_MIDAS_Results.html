@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real GDP MIDAS Analysis Results</title>
+    <style>
+        body { 
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 20px; 
+            background-color: #f8f9fa; 
+            color: #2c3e50;
+        }
+        .header { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; 
+            padding: 25px; 
+            border-radius: 15px; 
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+        }
+        .header h1 { 
+            margin: 0; 
+            font-size: 2.2em; 
+            font-weight: 300;
+        }
+        .header p { 
+            margin: 10px 0 0 0; 
+            opacity: 0.9; 
+            font-size: 1.1em;
+        }
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+            text-align: center;
+        }
+        .stat-number { 
+            font-size: 2em; 
+            font-weight: bold; 
+            color: #667eea;
+            display: block;
+        }
+        .stat-label { 
+            color: #7f8c8d; 
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 20px 0; 
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        th { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; 
+            padding: 15px 8px; 
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+        td { 
+            padding: 12px 8px; 
+            text-align: center; 
+            border-bottom: 1px solid #ecf0f1;
+            font-size: 0.9em;
+        }
+        tr:nth-child(even) { 
+            background-color: #f8f9fa; 
+        }
+        tr:hover { 
+            background-color: #e3f2fd; 
+            transition: background-color 0.3s;
+        }
+        .model-group { 
+            background-color: #3498db; 
+            color: white; 
+            padding: 4px 8px; 
+            border-radius: 15px; 
+            font-size: 0.8em; 
+            font-weight: bold;
+        }
+        .coef-pos { color: #27ae60; font-weight: bold; }
+        .coef-neg { color: #e74c3c; font-weight: bold; }
+        .sig-high { 
+            background-color: #e74c3c; 
+            color: white; 
+            padding: 2px 6px; 
+            border-radius: 10px; 
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+        .sig-med { 
+            background-color: #f39c12; 
+            color: white; 
+            padding: 2px 6px; 
+            border-radius: 10px; 
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+        .sig-low { 
+            background-color: #95a5a6; 
+            color: white; 
+            padding: 2px 6px; 
+            border-radius: 10px; 
+            font-size: 0.75em;
+        }
+        .sig-marginal { 
+            background-color: #bdc3c7; 
+            color: #2c3e50; 
+            padding: 2px 6px; 
+            border-radius: 10px; 
+            font-size: 0.75em;
+        }
+        h2 { 
+            color: #2c3e50; 
+            border-bottom: 3px solid #667eea; 
+            padding-bottom: 10px; 
+            margin-top: 40px;
+        }
+        .timestamp { 
+            text-align: center; 
+            color: #95a5a6; 
+            font-style: italic; 
+            margin-top: 30px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+        }
+        .best-model { 
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); 
+            color: white; 
+        }
+        .coef-table th { font-size: 0.8em; padding: 10px 5px; }
+        .coef-table td { font-size: 0.8em; padding: 8px 5px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 Real GDP MIDAS Analysis Results</h1>
+        <p>Mixed-Frequency Data Sampling with Nealmon Polynomial Structure</p>
+        <p>Comprehensive Model Performance & Coefficient Analysis</p>
+    </div>
+    <div class="summary-stats">
+        <div class="stat-card">
+            <span class="stat-number">10</span>
+            <div class="stat-label">Total Models</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">248.7</span>
+            <div class="stat-label">Best AIC</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">90.6%</span>
+            <div class="stat-label">Highest R²</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">2.570</span>
+            <div class="stat-label">Avg MASE</div>
+        </div>
+    </div>
+    <h2>🏆 Model Performance Leaderboard</h2>
+    <p><em>All models ranked by AIC (lower is better), with comprehensive performance metrics</em></p>
+    <table>
+        <tr>
+            <th>Rank</th>
+            <th>Model ID</th>
+            <th>Group</th>
+            <th>AIC</th>
+            <th>BIC</th>
+            <th>R²</th>
+            <th>Adj R²</th>
+            <th>RMSE</th>
+            <th>MAE</th>
+            <th>MASE</th>
+        </tr><tr class="best-model">
+          <td><strong>1</strong></td>
+          <td>4</td>
+          <td><span class="model-group">C1_oilex</span></td>
+          <td>248.71</td>
+          <td>282.52</td>
+          <td>90.6%</td>
+          <td>86.8%</td>
+          <td>6.439</td>
+          <td>5.031</td>
+          <td>2.435</td>
+      </tr><tr >
+          <td><strong>2</strong></td>
+          <td>2</td>
+          <td><span class="model-group">B1_oilex</span></td>
+          <td>251.79</td>
+          <td>281.62</td>
+          <td>89.2%</td>
+          <td>85.7%</td>
+          <td>6.102</td>
+          <td>5.01</td>
+          <td>2.425</td>
+      </tr><tr >
+          <td><strong>3</strong></td>
+          <td>8</td>
+          <td><span class="model-group">B2_prod</span></td>
+          <td>256.41</td>
+          <td>286.25</td>
+          <td>88.3%</td>
+          <td>84.5%</td>
+          <td>6.432</td>
+          <td>5.182</td>
+          <td>2.508</td>
+      </tr><tr >
+          <td><strong>4</strong></td>
+          <td>5</td>
+          <td><span class="model-group">C2_oilex</span></td>
+          <td>256.87</td>
+          <td>290.68</td>
+          <td>89%</td>
+          <td>84.7%</td>
+          <td>6.734</td>
+          <td>5.675</td>
+          <td>2.747</td>
+      </tr><tr >
+          <td><strong>5</strong></td>
+          <td>1</td>
+          <td><span class="model-group">A_oilex</span></td>
+          <td>257.55</td>
+          <td>283.41</td>
+          <td>87.1%</td>
+          <td>83.7%</td>
+          <td>6.911</td>
+          <td>5.195</td>
+          <td>2.514</td>
+      </tr><tr >
+          <td><strong>6</strong></td>
+          <td>3</td>
+          <td><span class="model-group">B2_oilex</span></td>
+          <td>259.22</td>
+          <td>289.06</td>
+          <td>87.7%</td>
+          <td>83.6%</td>
+          <td>6.915</td>
+          <td>5.639</td>
+          <td>2.729</td>
+      </tr><tr >
+          <td><strong>7</strong></td>
+          <td>6</td>
+          <td><span class="model-group">A_prod</span></td>
+          <td>260.58</td>
+          <td>286.43</td>
+          <td>86.4%</td>
+          <td>82.8%</td>
+          <td>6.756</td>
+          <td>5.541</td>
+          <td>2.682</td>
+      </tr><tr >
+          <td><strong>8</strong></td>
+          <td>7</td>
+          <td><span class="model-group">B1_prod</span></td>
+          <td>263.11</td>
+          <td>292.94</td>
+          <td>86.7%</td>
+          <td>82.4%</td>
+          <td>6.681</td>
+          <td>5.284</td>
+          <td>2.557</td>
+      </tr><tr >
+          <td><strong>9</strong></td>
+          <td>9</td>
+          <td><span class="model-group">C1_prod</span></td>
+          <td>266.31</td>
+          <td>300.12</td>
+          <td>86.9%</td>
+          <td>81.8%</td>
+          <td>6.449</td>
+          <td>5.392</td>
+          <td>2.61</td>
+      </tr><tr >
+          <td><strong>10</strong></td>
+          <td>10</td>
+          <td><span class="model-group">C2_prod</span></td>
+          <td>267.6</td>
+          <td>301.41</td>
+          <td>86.6%</td>
+          <td>81.3%</td>
+          <td>6.501</td>
+          <td>5.149</td>
+          <td>2.492</td>
+      </tr></table>
+    <h2>🎯 Best Model Per Group</h2>
+    <p><em>Top performing model in each specification category</em></p>
+    <table>
+        <tr>
+            <th>Group</th>
+            <th>Model ID</th>
+            <th>AIC</th>
+            <th>BIC</th>
+            <th>R²</th>
+            <th>Adj R²</th>
+            <th>RMSE</th>
+            <th>MAE</th>
+            <th>MASE</th>
+        </tr><tr>
+          <td><span class="model-group">C1_oilex</span></td>
+          <td><strong>4</strong></td>
+          <td>248.71</td>
+          <td>282.52</td>
+          <td>90.6%</td>
+          <td>86.8%</td>
+          <td>6.439</td>
+          <td>5.031</td>
+          <td>2.435</td>
+      </tr><tr>
+          <td><span class="model-group">B1_oilex</span></td>
+          <td><strong>2</strong></td>
+          <td>251.79</td>
+          <td>281.62</td>
+          <td>89.2%</td>
+          <td>85.7%</td>
+          <td>6.102</td>
+          <td>5.01</td>
+          <td>2.425</td>
+      </tr><tr>
+          <td><span class="model-group">B2_prod</span></td>
+          <td><strong>8</strong></td>
+          <td>256.41</td>
+          <td>286.25</td>
+          <td>88.3%</td>
+          <td>84.5%</td>
+          <td>6.432</td>
+          <td>5.182</td>
+          <td>2.508</td>
+      </tr><tr>
+          <td><span class="model-group">C2_oilex</span></td>
+          <td><strong>5</strong></td>
+          <td>256.87</td>
+          <td>290.68</td>
+          <td>89%</td>
+          <td>84.7%</td>
+          <td>6.734</td>
+          <td>5.675</td>
+          <td>2.747</td>
+      </tr><tr>
+          <td><span class="model-group">A_oilex</span></td>
+          <td><strong>1</strong></td>
+          <td>257.55</td>
+          <td>283.41</td>
+          <td>87.1%</td>
+          <td>83.7%</td>
+          <td>6.911</td>
+          <td>5.195</td>
+          <td>2.514</td>
+      </tr><tr>
+          <td><span class="model-group">B2_oilex</span></td>
+          <td><strong>3</strong></td>
+          <td>259.22</td>
+          <td>289.06</td>
+          <td>87.7%</td>
+          <td>83.6%</td>
+          <td>6.915</td>
+          <td>5.639</td>
+          <td>2.729</td>
+      </tr><tr>
+          <td><span class="model-group">A_prod</span></td>
+          <td><strong>6</strong></td>
+          <td>260.58</td>
+          <td>286.43</td>
+          <td>86.4%</td>
+          <td>82.8%</td>
+          <td>6.756</td>
+          <td>5.541</td>
+          <td>2.682</td>
+      </tr><tr>
+          <td><span class="model-group">B1_prod</span></td>
+          <td><strong>7</strong></td>
+          <td>263.11</td>
+          <td>292.94</td>
+          <td>86.7%</td>
+          <td>82.4%</td>
+          <td>6.681</td>
+          <td>5.284</td>
+          <td>2.557</td>
+      </tr><tr>
+          <td><span class="model-group">C1_prod</span></td>
+          <td><strong>9</strong></td>
+          <td>266.31</td>
+          <td>300.12</td>
+          <td>86.9%</td>
+          <td>81.8%</td>
+          <td>6.449</td>
+          <td>5.392</td>
+          <td>2.61</td>
+      </tr><tr>
+          <td><span class="model-group">C2_prod</span></td>
+          <td><strong>10</strong></td>
+          <td>267.6</td>
+          <td>301.41</td>
+          <td>86.6%</td>
+          <td>81.3%</td>
+          <td>6.501</td>
+          <td>5.149</td>
+          <td>2.492</td>
+      </tr></table>
+    <h2>🔍 Individual Model Analysis</h2>
+    <p><em>Detailed coefficient analysis for each model with MIDAS structure insights</em></p>
+        <div style="margin: 25px 0; border: 2px solid #667eea; border-radius: 10px; padding: 20px; background: #fafbfc;">
+            <h3 style="margin-top: 0; color: #2c3e50;">📈 Model 1 - A_oilex</h3>
+            
+            <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <strong>Model Performance:</strong><br>
+                • AIC: <code>257.55</code> | BIC: <code>283.41</code><br>
+                • R²: <code>0.871</code> | Adj R²: <code>0.837</code><br>
+                • RMSE: <code>6.911</code> | MAE: <code>5.195</code> | MASE: <code>2.514</code>
+            </div>
+            <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                <strong>Key Insights:</strong><br>
+                • <strong>Model Type:</strong> MIDAS with Nealmon Polynomial Structure<br>
+                • <strong>Model Rank by AIC:</strong> 5 out of 10 models<br>
+                • <strong>Group Performance:</strong> A_oilex specification
+            </div>
+        </div>
+        <div style="margin: 25px 0; border: 2px solid #667eea; border-radius: 10px; padding: 20px; background: #fafbfc;">
+            <h3 style="margin-top: 0; color: #2c3e50;">📈 Model 2 - B1_oilex</h3>
+            
+            <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <strong>Model Performance:</strong><br>
+                • AIC: <code>251.79</code> | BIC: <code>281.62</code><br>
+                • R²: <code>0.892</code> | Adj R²: <code>0.857</code><br>
+                • RMSE: <code>6.102</code> | MAE: <code>5.010</code> | MASE: <code>2.425</code>
+            </div>
+            <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                <strong>Key Insights:</strong><br>
+                • <strong>Model Type:</strong> MIDAS with Nealmon Polynomial Structure<br>
+                • <strong>Model Rank by AIC:</strong> 2 out of 10 models<br>
+                • <strong>Group Performance:</strong> B1_oilex specification
+            </div>
+        </div>
+        <div style="margin: 25px 0; border: 2px solid #667eea; border-radius: 10px; padding: 20px; background: #fafbfc;">
+            <h3 style="margin-top: 0; color: #2c3e50;">📈 Model 3 - B2_oilex</h3>
+            
+            <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <strong>Model Performance:</strong><br>
+                • AIC: <code>259.22</code> | BIC: <code>289.06</code><br>
+                • R²: <code>0.877</code> | Adj R²: <code>0.836</code><br>
+                • RMSE: <code>6.915</code> | MAE: <code>5.639</code> | MASE: <code>2.729</code>
+            </div>
+            <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                <strong>Key Insights:</strong><br>
+                • <strong>Model Type:</strong> MIDAS with Nealmon Polynomial Structure<br>
+                • <strong>Model Rank by AIC:</strong> 6 out of 10 models<br>
+                • <strong>Group Performance:</strong> B2_oilex specification
+            </div>
+        </div>
+        <div style="margin: 25px 0; border: 2px solid #667eea; border-radius: 10px; padding: 20px; background: #fafbfc;">
+            <h3 style="margin-top: 0; color: #2c3e50;">📈 Model 4 - C1_oilex</h3>
+            
+            <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <strong>Model Performance:</strong><br>
+                • AIC: <code>248.71</code> | BIC: <code>282.52</code><br>
+                • R²: <code>0.906</code> | Adj R²: <code>0.868</code><br>
+                • RMSE: <code>6.439</code> | MAE: <code>5.031</code> | MASE: <code>2.435</code>
+            </div>
+            <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                <strong>Key Insights:</strong><br>
+                • <strong>Model Type:</strong> MIDAS with Nealmon Polynomial Structure<br>
+                • <strong>Model Rank by AIC:</strong> 1 out of 10 models<br>
+                • <strong>Group Performance:</strong> C1_oilex specification
+            </div>
+        </div>
+        <div style="margin: 25px 0; border: 2px solid #667eea; border-radius: 10px; padding: 20px; background: #fafbfc;">
+            <h3 style="margin-top: 0; color: #2c3e50;">📈 Model 5 - C2_oilex</h3>
+            
+            <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <strong>Model Performance:</strong><br>
+                • AIC: <code>256.87</code> | BIC: <code>290.68</code><br>
+                • R²: <code>0.890</code> | Adj R²: <code>0.847</code><br>
+                • RMSE: <code>6.734</code> | MAE: <code>5.675</code> | MASE: <code>2.747</code>
+            </div>
+            <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                <strong>Key Insights:</strong><br>
+                • <strong>Model Type:</strong> MIDAS with Nealmon Polynomial Structure<br>
+                • <strong>Model Rank by AIC:</strong> 4 out of 10 models<br>
+                • <strong>Group Performance:</strong> C2_oilex specification
+            </div>
+        </div>
+        <div style="margin: 25px 0; border: 2px solid #667eea; border-radius: 10px; padding: 20px; background: #fafbfc;">
+            <h3 style="margin-top: 0; color: #2c3e50;">📈 Model 6 - A_prod</h3>
+            
+            <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <strong>Model Performance:</strong><br>
+                • AIC: <code>260.58</code> | BIC: <code>286.43</code><br>
+                • R²: <code>0.864</code> | Adj R²: <code>0.828</code><br>
+                • RMSE: <code>6.756</code> | MAE: <code>5.541</code> | MASE: <code>2.682</code>
+            </div>
+            <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                <strong>Key Insights:</strong><br>
+                • <strong>Model Type:</strong> MIDAS with Nealmon Polynomial Structure<br>
+                • <strong>Model Rank by AIC:</strong> 7 out of 10 models<br>
+                • <strong>Group Performance:</strong> A_prod specification
+            </div>
+        </div>
+        <div style="margin: 25px 0; border: 2px solid #667eea; border-radius: 10px; padding: 20px; background: #fafbfc;">
+            <h3 style="margin-top: 0; color: #2c3e50;">📈 Model 7 - B1_prod</h3>
+            
+            <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <strong>Model Performance:</strong><br>
+                • AIC: <code>263.11</code> | BIC: <code>292.94</code><br>
+                • R²: <code>0.867</code> | Adj R²: <code>0.824</code><br>
+                • RMSE: <code>6.681</code> | MAE: <code>5.284</code> | MASE: <code>2.557</code>
+            </div>
+            <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                <strong>Key Insights:</strong><br>
+                • <strong>Model Type:</strong> MIDAS with Nealmon Polynomial Structure<br>
+                • <strong>Model Rank by AIC:</strong> 8 out of 10 models<br>
+                • <strong>Group Performance:</strong> B1_prod specification
+            </div>
+        </div>
+        <div style="margin: 25px 0; border: 2px solid #667eea; border-radius: 10px; padding: 20px; background: #fafbfc;">
+            <h3 style="margin-top: 0; color: #2c3e50;">📈 Model 8 - B2_prod</h3>
+            
+            <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <strong>Model Performance:</strong><br>
+                • AIC: <code>256.41</code> | BIC: <code>286.25</code><br>
+                • R²: <code>0.883</code> | Adj R²: <code>0.845</code><br>
+                • RMSE: <code>6.432</code> | MAE: <code>5.182</code> | MASE: <code>2.508</code>
+            </div>
+            <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                <strong>Key Insights:</strong><br>
+                • <strong>Model Type:</strong> MIDAS with Nealmon Polynomial Structure<br>
+                • <strong>Model Rank by AIC:</strong> 3 out of 10 models<br>
+                • <strong>Group Performance:</strong> B2_prod specification
+            </div>
+        </div>
+        <div style="margin: 25px 0; border: 2px solid #667eea; border-radius: 10px; padding: 20px; background: #fafbfc;">
+            <h3 style="margin-top: 0; color: #2c3e50;">📈 Model 9 - C1_prod</h3>
+            
+            <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <strong>Model Performance:</strong><br>
+                • AIC: <code>266.31</code> | BIC: <code>300.12</code><br>
+                • R²: <code>0.869</code> | Adj R²: <code>0.818</code><br>
+                • RMSE: <code>6.449</code> | MAE: <code>5.392</code> | MASE: <code>2.610</code>
+            </div>
+            <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                <strong>Key Insights:</strong><br>
+                • <strong>Model Type:</strong> MIDAS with Nealmon Polynomial Structure<br>
+                • <strong>Model Rank by AIC:</strong> 9 out of 10 models<br>
+                • <strong>Group Performance:</strong> C1_prod specification
+            </div>
+        </div>
+        <div style="margin: 25px 0; border: 2px solid #667eea; border-radius: 10px; padding: 20px; background: #fafbfc;">
+            <h3 style="margin-top: 0; color: #2c3e50;">📈 Model 10 - C2_prod</h3>
+            
+            <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <strong>Model Performance:</strong><br>
+                • AIC: <code>267.60</code> | BIC: <code>301.41</code><br>
+                • R²: <code>0.866</code> | Adj R²: <code>0.813</code><br>
+                • RMSE: <code>6.501</code> | MAE: <code>5.149</code> | MASE: <code>2.492</code>
+            </div>
+            <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                <strong>Key Insights:</strong><br>
+                • <strong>Model Type:</strong> MIDAS with Nealmon Polynomial Structure<br>
+                • <strong>Model Rank by AIC:</strong> 10 out of 10 models<br>
+                • <strong>Group Performance:</strong> C2_prod specification
+            </div>
+        </div>
+    <div class="timestamp">
+        <p>Report generated on 2025-11-04 18:41:00.111642</p>
+        <p><em>Real GDP MIDAS Analysis | Mixed-Frequency Econometric Modeling</em></p>
+    </div>
+</body>
+</html>

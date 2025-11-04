@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <title>Classical OLS Results - Nominal GDP Growth</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+            .container { max-width: 1600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+            h1 { color: #2c3e50; text-align: center; border-bottom: 3px solid #e74c3c; padding-bottom: 10px; }
+            h2 { color: #34495e; margin-top: 30px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; }
+            h3 { color: #2c3e50; margin-top: 20px; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 12px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+            th { background-color: #e74c3c; color: white; font-weight: bold; }
+            tr:nth-child(even) { background-color: #f9f9f9; }
+            .best { background-color: #fff3cd !important; font-weight: bold; }
+            .summary-box { background: #ecf0f1; padding: 15px; border-radius: 5px; margin: 10px 0; }
+            .metric { font-family: monospace; background: #3498db; color: white; padding: 2px 5px; border-radius: 3px; }
+            .sig-high { background-color: #27ae60; color: white; padding: 2px 4px; border-radius: 10px; font-size: 9px; font-weight: bold; }
+            .sig-med { background-color: #f39c12; color: white; padding: 2px 4px; border-radius: 10px; font-size: 9px; }
+            .sig-low { background-color: #e67e22; color: white; padding: 2px 4px; border-radius: 10px; font-size: 9px; }
+            .sig-marginal { background-color: #95a5a6; color: white; padding: 2px 4px; border-radius: 10px; font-size: 9px; }
+            .sig-none { color: #7f8c8d; padding: 2px 4px; font-size: 9px; }
+            .coef-pos { color: #27ae60; font-weight: bold; }
+            .coef-neg { color: #e74c3c; font-weight: bold; }
+            .model-group { background-color: #f8f9fa; padding: 2px 6px; border-radius: 4px; font-size: 10px; }
+            .coef-table { width: 100%; font-size: 11px; margin: 15px 0; }
+            .coef-table th { background-color: #34495e; color: white; }
+            .diagnostics { background: #e8f5e8; padding: 12px; border-radius: 5px; margin-top: 15px; font-size: 11px; }
+            code { background: #f1f1f1; padding: 1px 4px; border-radius: 3px; font-size: 10px; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Classical OLS Analysis Results</h1>
+            <h2>Quarterly Regression Models for Nominal GDP Growth</h2>
+            
+            <div class="summary-box">
+                <strong>Analysis Summary:</strong><br>
+                • Total Models Tested: <span class="metric">10</span><br>
+                • Best AIC Score: <span class="metric">296.38</span><br>
+                • Highest R²: <span class="metric">77.4%</span><br>
+                • Highest Adj R²: <span class="metric">72.8%</span><br>
+                • Robust Standard Errors: <span class="metric">White HC1</span><br>
+                • Analysis Date: <span class="metric">2025-11-04</span>
+            </div>
+    
+            <h2>Model Performance Leaderboard</h2>
+            <p><em>Classical OLS models ranked by AIC. Lower AIC indicates better model fit.</em></p>
+            <table>
+                <tr>
+                    <th>Model ID</th>
+                    <th>Group</th>
+                    <th>Predictors</th>
+                    <th>AIC</th>
+                    <th>BIC</th>
+                    <th>R²</th>
+                    <th>Adj R²</th>
+                    <th>RMSE</th>
+                    <th>MAE</th>
+                    <th>MASE</th>
+                    <th>Ljung-Box p</th>
+                    <th>BP Test p</th>
+                </tr><tr class="best">
+          <td>4</td>
+          <td><span class="model-group">C1_oilex</span></td>
+          <td style="font-size:9px; text-align:left;">oil_gaz_exports_g,<br>noil_omani_exports_g,<br>re_exports_g,<br>tot_mer_imports_g,<br>M1_g,<br>oil_price_g</td>
+          <td>296.38</td>
+          <td>318.26</td>
+          <td>77.4%</td>
+          <td>72.8%</td>
+          <td>4</td>
+          <td>3.254</td>
+          <td>0.628</td>
+          <td>0.497</td>
+          <td>0.7</td>
+      </tr><tr >
+          <td>9</td>
+          <td><span class="model-group">C1_prod</span></td>
+          <td style="font-size:9px; text-align:left;">d_avg_prod_g,<br>noil_omani_exports_g,<br>re_exports_g,<br>tot_mer_imports_g,<br>M1_g,<br>oil_price_g</td>
+          <td>297.04</td>
+          <td>318.92</td>
+          <td>77.2%</td>
+          <td>72.5%</td>
+          <td>4.039</td>
+          <td>3.281</td>
+          <td>0.633</td>
+          <td>0.524</td>
+          <td>0.732</td>
+      </tr><tr >
+          <td>5</td>
+          <td><span class="model-group">C2_oilex</span></td>
+          <td style="font-size:9px; text-align:left;">oil_gaz_exports_g,<br>noil_omani_exports_g,<br>re_exports_g,<br>tot_mer_imports_g,<br>M2_g,<br>oil_price_g</td>
+          <td>304.47</td>
+          <td>326.35</td>
+          <td>73.8%</td>
+          <td>68.4%</td>
+          <td>4.075</td>
+          <td>3.501</td>
+          <td>0.676</td>
+          <td>0.224</td>
+          <td>0.613</td>
+      </tr><tr >
+          <td>10</td>
+          <td><span class="model-group">C2_prod</span></td>
+          <td style="font-size:9px; text-align:left;">d_avg_prod_g,<br>noil_omani_exports_g,<br>re_exports_g,<br>tot_mer_imports_g,<br>M2_g,<br>oil_price_g</td>
+          <td>304.78</td>
+          <td>326.66</td>
+          <td>73.6%</td>
+          <td>68.2%</td>
+          <td>4.123</td>
+          <td>3.6</td>
+          <td>0.695</td>
+          <td>0.216</td>
+          <td>0.68</td>
+      </tr><tr >
+          <td>2</td>
+          <td><span class="model-group">B1_oilex</span></td>
+          <td style="font-size:9px; text-align:left;">oil_gaz_exports_g,<br>noil_omani_exports_g,<br>re_exports_g,<br>tot_mer_imports_g,<br>M1_g</td>
+          <td>312.35</td>
+          <td>332.24</td>
+          <td>68.5%</td>
+          <td>62.9%</td>
+          <td>4.541</td>
+          <td>4.177</td>
+          <td>0.806</td>
+          <td>0.647</td>
+          <td>0.297</td>
+      </tr><tr >
+          <td>1</td>
+          <td><span class="model-group">A_oilex</span></td>
+          <td style="font-size:9px; text-align:left;">oil_gaz_exports_g,<br>noil_omani_exports_g,<br>re_exports_g,<br>tot_mer_imports_g</td>
+          <td>316.18</td>
+          <td>334.08</td>
+          <td>64.9%</td>
+          <td>59.6%</td>
+          <td>4.561</td>
+          <td>4.08</td>
+          <td>0.787</td>
+          <td>0.305</td>
+          <td>0.255</td>
+      </tr><tr >
+          <td>3</td>
+          <td><span class="model-group">B2_oilex</span></td>
+          <td style="font-size:9px; text-align:left;">oil_gaz_exports_g,<br>noil_omani_exports_g,<br>re_exports_g,<br>tot_mer_imports_g,<br>M2_g</td>
+          <td>318.1</td>
+          <td>337.99</td>
+          <td>65%</td>
+          <td>58.8%</td>
+          <td>4.552</td>
+          <td>4.09</td>
+          <td>0.789</td>
+          <td>0.362</td>
+          <td>0.311</td>
+      </tr><tr >
+          <td>7</td>
+          <td><span class="model-group">B1_prod</span></td>
+          <td style="font-size:9px; text-align:left;">d_avg_prod_g,<br>noil_omani_exports_g,<br>re_exports_g,<br>tot_mer_imports_g,<br>M1_g</td>
+          <td>344.07</td>
+          <td>363.96</td>
+          <td>43.4%</td>
+          <td>33.3%</td>
+          <td>4.876</td>
+          <td>3.695</td>
+          <td>0.713</td>
+          <td>0.615</td>
+          <td>0.057</td>
+      </tr><tr >
+          <td>6</td>
+          <td><span class="model-group">A_prod</span></td>
+          <td style="font-size:9px; text-align:left;">d_avg_prod_g,<br>noil_omani_exports_g,<br>re_exports_g,<br>tot_mer_imports_g</td>
+          <td>345.89</td>
+          <td>363.79</td>
+          <td>39.2%</td>
+          <td>30%</td>
+          <td>4.561</td>
+          <td>3.382</td>
+          <td>0.653</td>
+          <td>0.42</td>
+          <td>0.043</td>
+      </tr><tr >
+          <td>8</td>
+          <td><span class="model-group">B2_prod</span></td>
+          <td style="font-size:9px; text-align:left;">d_avg_prod_g,<br>noil_omani_exports_g,<br>re_exports_g,<br>tot_mer_imports_g,<br>M2_g</td>
+          <td>346.14</td>
+          <td>366.03</td>
+          <td>41.2%</td>
+          <td>30.7%</td>
+          <td>4.986</td>
+          <td>3.805</td>
+          <td>0.734</td>
+          <td>0.614</td>
+          <td>0.111</td>
+      </tr></table>
+            <h2>Individual Model Analysis</h2>
+            <p><em>Detailed coefficient analysis for each model with standardized effects</em></p>
+            <div style="margin: 25px 0; border: 2px solid #e74c3c; border-radius: 10px; padding: 20px; background: #fafbfc;">
+                <h3 style="margin-top: 0; color: #2c3e50;">📊 Model 1 - A_oilex</h3>
+                
+                <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Model Performance:</strong><br>
+                    • AIC: <code>316.18</code> | BIC: <code>334.08</code><br>
+                    • R²: <code>0.649</code> | Adj R²: <code>0.596</code><br>
+                    • RMSE: <code>4.561</code> | MAE: <code>4.080</code> | MASE: <code>0.787</code>
+                </div>
+                
+                <h4>Coefficient Analysis (Ranked by Effect Size):</h4>
+                <table style="width: 100%; font-size: 11px; margin: 15px 0; border-collapse: collapse;">
+                    <tr style="background-color: #34495e; color: white;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align:left;">Variable</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Description</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Std Beta</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Raw Coef</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">p-value</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Sig</th>
+                    </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">oil_gaz_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Oil & Gaz Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.6637</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.727747</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.000000</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-high">p&lt;0.001</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">noil_omani_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Non-Oil Omani Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.1953</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.126548</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.042671</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-med">p&lt;0.05</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">tot_mer_imports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Total Recorded Merchandise Imports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.1281</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-0.153547</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.112609</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">re_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Re-Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.0101</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.007170</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.919540</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr>
+                </table>
+                
+                <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                    <strong>Key Insights:</strong><br>
+                    • <strong>Most Important Predictor:</strong> Oil & Gaz Exports (Std β = 0.664)<br>
+                    • <strong>Significant Predictors:</strong> 2 out of 4 variables<br>
+                    • <strong>Model Rank by AIC:</strong> 6 out of 10 models
+                </div>
+            </div>
+            <div style="margin: 25px 0; border: 2px solid #e74c3c; border-radius: 10px; padding: 20px; background: #fafbfc;">
+                <h3 style="margin-top: 0; color: #2c3e50;">📊 Model 2 - B1_oilex</h3>
+                
+                <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Model Performance:</strong><br>
+                    • AIC: <code>312.35</code> | BIC: <code>332.24</code><br>
+                    • R²: <code>0.685</code> | Adj R²: <code>0.629</code><br>
+                    • RMSE: <code>4.541</code> | MAE: <code>4.177</code> | MASE: <code>0.806</code>
+                </div>
+                
+                <h4>Coefficient Analysis (Ranked by Effect Size):</h4>
+                <table style="width: 100%; font-size: 11px; margin: 15px 0; border-collapse: collapse;">
+                    <tr style="background-color: #34495e; color: white;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align:left;">Variable</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Description</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Std Beta</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Raw Coef</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">p-value</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Sig</th>
+                    </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">oil_gaz_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Oil & Gaz Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.6667</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.731085</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.000000</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-high">p&lt;0.001</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">M1_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Narrow Money (M1)</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.2222</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-0.890286</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.018489</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-med">p&lt;0.05</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">noil_omani_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Non-Oil Omani Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.1424</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.092263</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.119021</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">tot_mer_imports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Total Recorded Merchandise Imports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.1119</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-0.134179</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.132935</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">re_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Re-Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.0191</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.013571</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.831757</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr>
+                </table>
+                
+                <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                    <strong>Key Insights:</strong><br>
+                    • <strong>Most Important Predictor:</strong> Oil & Gaz Exports (Std β = 0.667)<br>
+                    • <strong>Significant Predictors:</strong> 2 out of 5 variables<br>
+                    • <strong>Model Rank by AIC:</strong> 5 out of 10 models
+                </div>
+            </div>
+            <div style="margin: 25px 0; border: 2px solid #e74c3c; border-radius: 10px; padding: 20px; background: #fafbfc;">
+                <h3 style="margin-top: 0; color: #2c3e50;">📊 Model 3 - B2_oilex</h3>
+                
+                <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Model Performance:</strong><br>
+                    • AIC: <code>318.10</code> | BIC: <code>337.99</code><br>
+                    • R²: <code>0.650</code> | Adj R²: <code>0.588</code><br>
+                    • RMSE: <code>4.552</code> | MAE: <code>4.090</code> | MASE: <code>0.789</code>
+                </div>
+                
+                <h4>Coefficient Analysis (Ranked by Effect Size):</h4>
+                <table style="width: 100%; font-size: 11px; margin: 15px 0; border-collapse: collapse;">
+                    <tr style="background-color: #34495e; color: white;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align:left;">Variable</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Description</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Std Beta</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Raw Coef</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">p-value</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Sig</th>
+                    </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">oil_gaz_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Oil & Gaz Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.6604</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.724192</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.000000</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-high">p&lt;0.001</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">noil_omani_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Non-Oil Omani Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.1965</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.127350</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.040895</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-med">p&lt;0.05</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">tot_mer_imports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Total Recorded Merchandise Imports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.1290</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-0.154721</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.106969</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">M2_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Broad Money (M2)</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.0252</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-0.230337</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.807644</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">re_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Re-Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.0164</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.011665</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.870432</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr>
+                </table>
+                
+                <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                    <strong>Key Insights:</strong><br>
+                    • <strong>Most Important Predictor:</strong> Oil & Gaz Exports (Std β = 0.660)<br>
+                    • <strong>Significant Predictors:</strong> 2 out of 5 variables<br>
+                    • <strong>Model Rank by AIC:</strong> 7 out of 10 models
+                </div>
+            </div>
+            <div style="margin: 25px 0; border: 2px solid #e74c3c; border-radius: 10px; padding: 20px; background: #fafbfc;">
+                <h3 style="margin-top: 0; color: #2c3e50;">📊 Model 4 - C1_oilex</h3>
+                
+                <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Model Performance:</strong><br>
+                    • AIC: <code>296.38</code> | BIC: <code>318.26</code><br>
+                    • R²: <code>0.774</code> | Adj R²: <code>0.728</code><br>
+                    • RMSE: <code>4.000</code> | MAE: <code>3.254</code> | MASE: <code>0.628</code>
+                </div>
+                
+                <h4>Coefficient Analysis (Ranked by Effect Size):</h4>
+                <table style="width: 100%; font-size: 11px; margin: 15px 0; border-collapse: collapse;">
+                    <tr style="background-color: #34495e; color: white;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align:left;">Variable</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Description</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Std Beta</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Raw Coef</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">p-value</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Sig</th>
+                    </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">oil_price_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Average oil price</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.6512</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.541845</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.000243</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-high">p&lt;0.001</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">M1_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Narrow Money (M1)</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.2481</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-0.994395</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.003194</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-high">p&lt;0.01</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">oil_gaz_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Oil & Gaz Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.1150</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.126084</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.493312</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">tot_mer_imports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Total Recorded Merchandise Imports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.0614</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-0.073661</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.481982</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">re_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Re-Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.0460</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.032721</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.539891</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">noil_omani_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Non-Oil Omani Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.0322</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.020840</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.697924</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr>
+                </table>
+                
+                <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                    <strong>Key Insights:</strong><br>
+                    • <strong>Most Important Predictor:</strong> Average oil price (Std β = 0.651)<br>
+                    • <strong>Significant Predictors:</strong> 2 out of 6 variables<br>
+                    • <strong>Model Rank by AIC:</strong> 1 out of 10 models
+                </div>
+            </div>
+            <div style="margin: 25px 0; border: 2px solid #e74c3c; border-radius: 10px; padding: 20px; background: #fafbfc;">
+                <h3 style="margin-top: 0; color: #2c3e50;">📊 Model 5 - C2_oilex</h3>
+                
+                <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Model Performance:</strong><br>
+                    • AIC: <code>304.47</code> | BIC: <code>326.35</code><br>
+                    • R²: <code>0.738</code> | Adj R²: <code>0.684</code><br>
+                    • RMSE: <code>4.075</code> | MAE: <code>3.501</code> | MASE: <code>0.676</code>
+                </div>
+                
+                <h4>Coefficient Analysis (Ranked by Effect Size):</h4>
+                <table style="width: 100%; font-size: 11px; margin: 15px 0; border-collapse: collapse;">
+                    <tr style="background-color: #34495e; color: white;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align:left;">Variable</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Description</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Std Beta</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Raw Coef</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">p-value</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Sig</th>
+                    </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">oil_price_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Average oil price</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.6626</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.551316</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.000402</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-high">p&lt;0.001</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">M2_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Broad Money (M2)</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.1007</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-0.922084</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.238140</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">noil_omani_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Non-Oil Omani Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.0944</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.061168</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.295589</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">oil_gaz_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Oil & Gaz Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.0890</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.097543</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.594332</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">tot_mer_imports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Total Recorded Merchandise Imports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.0826</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-0.098978</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.378966</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">re_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Re-Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.0617</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.043887</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.474330</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr>
+                </table>
+                
+                <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                    <strong>Key Insights:</strong><br>
+                    • <strong>Most Important Predictor:</strong> Average oil price (Std β = 0.663)<br>
+                    • <strong>Significant Predictors:</strong> 1 out of 6 variables<br>
+                    • <strong>Model Rank by AIC:</strong> 3 out of 10 models
+                </div>
+            </div>
+            <div style="margin: 25px 0; border: 2px solid #e74c3c; border-radius: 10px; padding: 20px; background: #fafbfc;">
+                <h3 style="margin-top: 0; color: #2c3e50;">📊 Model 6 - A_prod</h3>
+                
+                <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Model Performance:</strong><br>
+                    • AIC: <code>345.89</code> | BIC: <code>363.79</code><br>
+                    • R²: <code>0.392</code> | Adj R²: <code>0.300</code><br>
+                    • RMSE: <code>4.561</code> | MAE: <code>3.382</code> | MASE: <code>0.653</code>
+                </div>
+                
+                <h4>Coefficient Analysis (Ranked by Effect Size):</h4>
+                <table style="width: 100%; font-size: 11px; margin: 15px 0; border-collapse: collapse;">
+                    <tr style="background-color: #34495e; color: white;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align:left;">Variable</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Description</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Std Beta</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Raw Coef</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">p-value</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Sig</th>
+                    </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">noil_omani_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Non-Oil Omani Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.3215</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.208399</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.040021</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-med">p&lt;0.05</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">d_avg_prod_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Daily Average Oil Production</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.3070</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">1.685015</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.102035</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">re_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Re-Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.0995</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.070698</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.386134</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">tot_mer_imports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Total Recorded Merchandise Imports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.0822</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-0.098544</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.446045</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr>
+                </table>
+                
+                <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                    <strong>Key Insights:</strong><br>
+                    • <strong>Most Important Predictor:</strong> Non-Oil Omani Exports (Std β = 0.322)<br>
+                    • <strong>Significant Predictors:</strong> 1 out of 4 variables<br>
+                    • <strong>Model Rank by AIC:</strong> 9 out of 10 models
+                </div>
+            </div>
+            <div style="margin: 25px 0; border: 2px solid #e74c3c; border-radius: 10px; padding: 20px; background: #fafbfc;">
+                <h3 style="margin-top: 0; color: #2c3e50;">📊 Model 7 - B1_prod</h3>
+                
+                <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Model Performance:</strong><br>
+                    • AIC: <code>344.07</code> | BIC: <code>363.96</code><br>
+                    • R²: <code>0.434</code> | Adj R²: <code>0.333</code><br>
+                    • RMSE: <code>4.876</code> | MAE: <code>3.695</code> | MASE: <code>0.713</code>
+                </div>
+                
+                <h4>Coefficient Analysis (Ranked by Effect Size):</h4>
+                <table style="width: 100%; font-size: 11px; margin: 15px 0; border-collapse: collapse;">
+                    <tr style="background-color: #34495e; color: white;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align:left;">Variable</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Description</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Std Beta</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Raw Coef</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">p-value</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Sig</th>
+                    </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">d_avg_prod_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Daily Average Oil Production</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.3259</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">1.788717</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.089770</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-low">p&lt;0.1</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">noil_omani_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Non-Oil Omani Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.2643</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.171310</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.067407</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-low">p&lt;0.1</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">M1_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Narrow Money (M1)</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.2396</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-0.959992</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.078308</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-low">p&lt;0.1</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">re_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Re-Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.1059</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.075262</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.366728</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">tot_mer_imports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Total Recorded Merchandise Imports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.0710</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-0.085164</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.554175</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr>
+                </table>
+                
+                <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                    <strong>Key Insights:</strong><br>
+                    • <strong>Most Important Predictor:</strong> Daily Average Oil Production (Std β = 0.326)<br>
+                    • <strong>Significant Predictors:</strong> 0 out of 5 variables<br>
+                    • <strong>Model Rank by AIC:</strong> 8 out of 10 models
+                </div>
+            </div>
+            <div style="margin: 25px 0; border: 2px solid #e74c3c; border-radius: 10px; padding: 20px; background: #fafbfc;">
+                <h3 style="margin-top: 0; color: #2c3e50;">📊 Model 8 - B2_prod</h3>
+                
+                <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Model Performance:</strong><br>
+                    • AIC: <code>346.14</code> | BIC: <code>366.03</code><br>
+                    • R²: <code>0.412</code> | Adj R²: <code>0.307</code><br>
+                    • RMSE: <code>4.986</code> | MAE: <code>3.805</code> | MASE: <code>0.734</code>
+                </div>
+                
+                <h4>Coefficient Analysis (Ranked by Effect Size):</h4>
+                <table style="width: 100%; font-size: 11px; margin: 15px 0; border-collapse: collapse;">
+                    <tr style="background-color: #34495e; color: white;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align:left;">Variable</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Description</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Std Beta</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Raw Coef</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">p-value</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Sig</th>
+                    </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">d_avg_prod_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Daily Average Oil Production</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.3344</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">1.835385</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.061095</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-low">p&lt;0.1</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">noil_omani_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Non-Oil Omani Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.3236</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.209748</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.034961</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-med">p&lt;0.05</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">M2_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Broad Money (M2)</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.1533</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-1.403526</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.264048</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">re_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Re-Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.1275</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.090620</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.289898</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">tot_mer_imports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Total Recorded Merchandise Imports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.1032</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-0.123689</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.380570</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr>
+                </table>
+                
+                <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                    <strong>Key Insights:</strong><br>
+                    • <strong>Most Important Predictor:</strong> Daily Average Oil Production (Std β = 0.334)<br>
+                    • <strong>Significant Predictors:</strong> 1 out of 5 variables<br>
+                    • <strong>Model Rank by AIC:</strong> 10 out of 10 models
+                </div>
+            </div>
+            <div style="margin: 25px 0; border: 2px solid #e74c3c; border-radius: 10px; padding: 20px; background: #fafbfc;">
+                <h3 style="margin-top: 0; color: #2c3e50;">📊 Model 9 - C1_prod</h3>
+                
+                <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Model Performance:</strong><br>
+                    • AIC: <code>297.04</code> | BIC: <code>318.92</code><br>
+                    • R²: <code>0.772</code> | Adj R²: <code>0.725</code><br>
+                    • RMSE: <code>4.039</code> | MAE: <code>3.281</code> | MASE: <code>0.633</code>
+                </div>
+                
+                <h4>Coefficient Analysis (Ranked by Effect Size):</h4>
+                <table style="width: 100%; font-size: 11px; margin: 15px 0; border-collapse: collapse;">
+                    <tr style="background-color: #34495e; color: white;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align:left;">Variable</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Description</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Std Beta</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Raw Coef</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">p-value</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Sig</th>
+                    </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">oil_price_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Average oil price</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.7482</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.622566</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.000000</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-high">p&lt;0.001</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">M1_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Narrow Money (M1)</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.2516</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-1.008386</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.002816</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-high">p&lt;0.01</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">re_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Re-Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.0575</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.040863</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.425150</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">tot_mer_imports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Total Recorded Merchandise Imports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.0464</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-0.055622</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.622074</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">noil_omani_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Non-Oil Omani Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.0227</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.014730</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.783489</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">d_avg_prod_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Daily Average Oil Production</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.0010</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.005474</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.991084</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr>
+                </table>
+                
+                <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                    <strong>Key Insights:</strong><br>
+                    • <strong>Most Important Predictor:</strong> Average oil price (Std β = 0.748)<br>
+                    • <strong>Significant Predictors:</strong> 2 out of 6 variables<br>
+                    • <strong>Model Rank by AIC:</strong> 2 out of 10 models
+                </div>
+            </div>
+            <div style="margin: 25px 0; border: 2px solid #e74c3c; border-radius: 10px; padding: 20px; background: #fafbfc;">
+                <h3 style="margin-top: 0; color: #2c3e50;">📊 Model 10 - C2_prod</h3>
+                
+                <div style="background: #e8f5e8; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Model Performance:</strong><br>
+                    • AIC: <code>304.78</code> | BIC: <code>326.66</code><br>
+                    • R²: <code>0.736</code> | Adj R²: <code>0.682</code><br>
+                    • RMSE: <code>4.123</code> | MAE: <code>3.600</code> | MASE: <code>0.695</code>
+                </div>
+                
+                <h4>Coefficient Analysis (Ranked by Effect Size):</h4>
+                <table style="width: 100%; font-size: 11px; margin: 15px 0; border-collapse: collapse;">
+                    <tr style="background-color: #34495e; color: white;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align:left;">Variable</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Description</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Std Beta</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Raw Coef</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">p-value</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Sig</th>
+                    </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">oil_price_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Average oil price</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.7349</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.611498</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.000000</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-high">p&lt;0.001</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">M2_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Broad Money (M2)</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.1131</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-1.035607</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.217724</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">noil_omani_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Non-Oil Omani Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.0886</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.057434</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.333459</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">tot_mer_imports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Total Recorded Merchandise Imports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-neg"><strong>-0.0740</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">-0.088743</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.476070</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">re_exports_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Re-Exports</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.0723</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.051384</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.389386</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr><tr style="background-color: #f9f9f9;">
+              <td style="border: 1px solid #ddd; padding: 6px; font-family: monospace; font-size: 10px;">d_avg_prod_g</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:left; font-size:10px;">Daily Average Oil Production</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="coef-pos"><strong>0.0072</strong></span></td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.039291</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;">0.939132</td>
+              <td style="border: 1px solid #ddd; padding: 6px; text-align:center;"><span class="sig-marginal">n.s.</span></td>
+          </tr>
+                </table>
+                
+                <div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 10px; font-size: 11px;">
+                    <strong>Key Insights:</strong><br>
+                    • <strong>Most Important Predictor:</strong> Average oil price (Std β = 0.735)<br>
+                    • <strong>Significant Predictors:</strong> 1 out of 6 variables<br>
+                    • <strong>Model Rank by AIC:</strong> 4 out of 10 models
+                </div>
+            </div>
+            <h2>Model Specifications</h2>
+            <p><em>All models include autoregressive terms: y(t-1), y(t-2), y(t-4)</em></p>
+            <ul>
+                <li><strong>A_oilex:</strong> Oil & Gas exports, Non-oil Omani exports, Re-exports, Total imports</li>
+                <li><strong>B1_oilex:</strong> A_oilex + Narrow Money (M1)</li>
+                <li><strong>B2_oilex:</strong> A_oilex + Broad Money (M2)</li>
+                <li><strong>C1_oilex:</strong> A_oilex + M1 + Oil Price</li>
+                <li><strong>C2_oilex:</strong> A_oilex + M2 + Oil Price</li>
+                <li><strong>A_prod:</strong> Daily Oil Production, Non-oil Omani exports, Re-exports, Total imports</li>
+                <li><strong>B1_prod:</strong> A_prod + Narrow Money (M1)</li>
+                <li><strong>B2_prod:</strong> A_prod + Broad Money (M2)</li>
+                <li><strong>C1_prod:</strong> A_prod + M1 + Oil Price</li>
+                <li><strong>C2_prod:</strong> A_prod + M2 + Oil Price</li>
+            </ul>
+            
+            <h2>Key Findings & Methodology</h2>
+            <div class="summary-box">
+                <p><strong>Model Selection Guidelines:</strong></p>
+                <ul>
+                    <li><strong>AIC/BIC:</strong> Lower values indicate better model fit</li>
+                    <li><strong>R² / Adj R²:</strong> Proportion of variance explained</li>
+                    <li><strong>RMSE/MAE:</strong> Out-of-sample forecast accuracy</li>
+                    <li><strong>MASE:</strong> Mean Absolute Scaled Error (< 1 beats naive forecast)</li>
+                </ul>
+                
+                <p><strong>Technical Details:</strong></p>
+                <ul>
+                    <li>Monthly predictors aggregated to quarterly growth rates</li>
+                    <li>Quarterly aggregation using mean within each quarter</li>
+                    <li>All growth rates calculated as 100 × log differences</li>
+                    <li>Robust standard errors for heteroscedasticity correction</li>
+                    <li>Out-of-sample evaluation on last 8 quarters</li>
+                </ul>
+            </div>
+            
+        </div>
+    </body>
+    </html>

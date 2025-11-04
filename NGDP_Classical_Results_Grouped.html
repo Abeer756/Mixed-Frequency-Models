@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <title>Classical OLS Results - Nominal GDP Growth (Grouped)</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+            .container { max-width: 1800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+            h1 { color: #2c3e50; text-align: center; border-bottom: 3px solid #e74c3c; padding-bottom: 10px; }
+            h2 { color: #34495e; margin-top: 30px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; }
+            h3 { color: #2c3e50; margin-top: 25px; background: #f8f9fa; padding: 10px; border-radius: 5px; }
+            h4 { color: #34495e; margin-top: 20px; }
+            table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 11px; }
+            th, td { border: 1px solid #ddd; padding: 6px; text-align: center; }
+            th { background-color: #e74c3c; color: white; font-weight: bold; }
+            tr:nth-child(even) { background-color: #f9f9f9; }
+            .best-overall { background-color: #fff3cd !important; font-weight: bold; }
+            .best-category { background-color: #d1ecf1 !important; }
+            .oil-export { border-left: 4px solid #3498db; }
+            .production { border-left: 4px solid #e67e22; }
+            .summary-box { background: #ecf0f1; padding: 15px; border-radius: 5px; margin: 10px 0; }
+            .metric { font-family: monospace; background: #3498db; color: white; padding: 2px 5px; border-radius: 3px; }
+            .category-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px; border-radius: 8px; margin: 20px 0 10px 0; }
+            .approach-badge { 
+                padding: 3px 8px; border-radius: 12px; font-size: 10px; font-weight: bold;
+                background-color: #3498db; color: white; margin-left: 5px;
+            }
+            .production-badge { background-color: #e67e22 !important; }
+            .model-count { font-size: 12px; opacity: 0.8; }
+            .performance-highlight { background-color: #e8f5e9; padding: 8px; border-radius: 4px; margin: 5px 0; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Classical OLS Analysis Results (Model Groups)</h1>
+            <h2>Quarterly Regression Models for Nominal GDP Growth</h2>
+            
+            <div class="summary-box">
+                <strong>Analysis Overview:</strong><br>
+                • Total Models Tested: <span class="metric">10</span><br>
+                • Oil Export Approach: <span class="metric">5</span> models<br>
+                • Production Approach: <span class="metric">5</span> models<br>
+                • Best Overall AIC: <span class="metric">296.38</span><br>
+                • Highest R²: <span class="metric">77.4%</span><br>
+                • Analysis Date: <span class="metric">2025-11-04</span>
+            </div>
+    
+            <div class="performance-highlight">
+                <strong>🏆 Best Overall Model:</strong> Model 4 (C1_oilex) - AIC: 296.38, R²: 77.4%<span class="approach-badge ">Oil Export Approach</span>
+            </div>
+            <div class="category-header">
+                <h3 style="margin: 0; color: white;">📊 Basic + M1 Models <span class="model-count">(2 models)</span></h3>
+            </div>
+            <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+                <strong>Category Best:</strong> B1_oilex (AIC: 312.35, R²: 68.5%) | <strong>Approaches:</strong> 1 Oil Export, 1 Production
+            </div>
+            <table>
+                <tr>
+                    <th>Model ID</th>
+                    <th>Specification</th>
+                    <th>Approach</th>
+                    <th>AIC</th>
+                    <th>BIC</th>
+                    <th>R²</th>
+                    <th>Adj R²</th>
+                    <th>RMSE</th>
+                    <th>MAE</th>
+                    <th>MASE</th>
+                </tr><tr class="best-category" style="border-left: 4px solid #3498db;">
+            <td><strong>2</strong></td>
+            <td style="text-align:left; font-size:10px;">B1_oilex</td>
+            <td><span class="approach-badge ">Oil</span></td>
+            <td>312.35</td>
+            <td>332.24</td>
+            <td>68.5%</td>
+            <td>62.9%</td>
+            <td>4.541</td>
+            <td>4.177</td>
+            <td>0.806</td>
+        </tr><tr  style="border-left: 4px solid #e67e22;">
+            <td><strong>7</strong></td>
+            <td style="text-align:left; font-size:10px;">B1_prod</td>
+            <td><span class="approach-badge production-badge">Pro</span></td>
+            <td>344.07</td>
+            <td>363.96</td>
+            <td>43.4%</td>
+            <td>33.3%</td>
+            <td>4.876</td>
+            <td>3.695</td>
+            <td>0.713</td>
+        </tr></table>
+            <div class="category-header">
+                <h3 style="margin: 0; color: white;">📊 Basic + M2 Models <span class="model-count">(2 models)</span></h3>
+            </div>
+            <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+                <strong>Category Best:</strong> B2_oilex (AIC: 318.1, R²: 65%) | <strong>Approaches:</strong> 1 Oil Export, 1 Production
+            </div>
+            <table>
+                <tr>
+                    <th>Model ID</th>
+                    <th>Specification</th>
+                    <th>Approach</th>
+                    <th>AIC</th>
+                    <th>BIC</th>
+                    <th>R²</th>
+                    <th>Adj R²</th>
+                    <th>RMSE</th>
+                    <th>MAE</th>
+                    <th>MASE</th>
+                </tr><tr class="best-category" style="border-left: 4px solid #3498db;">
+            <td><strong>3</strong></td>
+            <td style="text-align:left; font-size:10px;">B2_oilex</td>
+            <td><span class="approach-badge ">Oil</span></td>
+            <td>318.1</td>
+            <td>337.99</td>
+            <td>65%</td>
+            <td>58.8%</td>
+            <td>4.552</td>
+            <td>4.09</td>
+            <td>0.789</td>
+        </tr><tr  style="border-left: 4px solid #e67e22;">
+            <td><strong>8</strong></td>
+            <td style="text-align:left; font-size:10px;">B2_prod</td>
+            <td><span class="approach-badge production-badge">Pro</span></td>
+            <td>346.14</td>
+            <td>366.03</td>
+            <td>41.2%</td>
+            <td>30.7%</td>
+            <td>4.986</td>
+            <td>3.805</td>
+            <td>0.734</td>
+        </tr></table>
+            <div class="category-header">
+                <h3 style="margin: 0; color: white;">📊 Basic Models <span class="model-count">(2 models)</span></h3>
+            </div>
+            <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+                <strong>Category Best:</strong> A_oilex (AIC: 316.18, R²: 64.9%) | <strong>Approaches:</strong> 1 Oil Export, 1 Production
+            </div>
+            <table>
+                <tr>
+                    <th>Model ID</th>
+                    <th>Specification</th>
+                    <th>Approach</th>
+                    <th>AIC</th>
+                    <th>BIC</th>
+                    <th>R²</th>
+                    <th>Adj R²</th>
+                    <th>RMSE</th>
+                    <th>MAE</th>
+                    <th>MASE</th>
+                </tr><tr class="best-category" style="border-left: 4px solid #3498db;">
+            <td><strong>1</strong></td>
+            <td style="text-align:left; font-size:10px;">A_oilex</td>
+            <td><span class="approach-badge ">Oil</span></td>
+            <td>316.18</td>
+            <td>334.08</td>
+            <td>64.9%</td>
+            <td>59.6%</td>
+            <td>4.561</td>
+            <td>4.08</td>
+            <td>0.787</td>
+        </tr><tr  style="border-left: 4px solid #e67e22;">
+            <td><strong>6</strong></td>
+            <td style="text-align:left; font-size:10px;">A_prod</td>
+            <td><span class="approach-badge production-badge">Pro</span></td>
+            <td>345.89</td>
+            <td>363.79</td>
+            <td>39.2%</td>
+            <td>30%</td>
+            <td>4.561</td>
+            <td>3.382</td>
+            <td>0.653</td>
+        </tr></table>
+            <div class="category-header">
+                <h3 style="margin: 0; color: white;">📊 Comprehensive + M1 Models <span class="model-count">(2 models)</span></h3>
+            </div>
+            <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+                <strong>Category Best:</strong> C1_oilex (AIC: 296.38, R²: 77.4%) | <strong>Approaches:</strong> 1 Oil Export, 1 Production
+            </div>
+            <table>
+                <tr>
+                    <th>Model ID</th>
+                    <th>Specification</th>
+                    <th>Approach</th>
+                    <th>AIC</th>
+                    <th>BIC</th>
+                    <th>R²</th>
+                    <th>Adj R²</th>
+                    <th>RMSE</th>
+                    <th>MAE</th>
+                    <th>MASE</th>
+                </tr><tr class="best-overall" style="border-left: 4px solid #3498db;">
+            <td><strong>4</strong></td>
+            <td style="text-align:left; font-size:10px;">C1_oilex</td>
+            <td><span class="approach-badge ">Oil</span></td>
+            <td>296.38</td>
+            <td>318.26</td>
+            <td>77.4%</td>
+            <td>72.8%</td>
+            <td>4</td>
+            <td>3.254</td>
+            <td>0.628</td>
+        </tr><tr  style="border-left: 4px solid #e67e22;">
+            <td><strong>9</strong></td>
+            <td style="text-align:left; font-size:10px;">C1_prod</td>
+            <td><span class="approach-badge production-badge">Pro</span></td>
+            <td>297.04</td>
+            <td>318.92</td>
+            <td>77.2%</td>
+            <td>72.5%</td>
+            <td>4.039</td>
+            <td>3.281</td>
+            <td>0.633</td>
+        </tr></table>
+            <div class="category-header">
+                <h3 style="margin: 0; color: white;">📊 Comprehensive + M2 Models <span class="model-count">(2 models)</span></h3>
+            </div>
+            <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+                <strong>Category Best:</strong> C2_oilex (AIC: 304.47, R²: 73.8%) | <strong>Approaches:</strong> 1 Oil Export, 1 Production
+            </div>
+            <table>
+                <tr>
+                    <th>Model ID</th>
+                    <th>Specification</th>
+                    <th>Approach</th>
+                    <th>AIC</th>
+                    <th>BIC</th>
+                    <th>R²</th>
+                    <th>Adj R²</th>
+                    <th>RMSE</th>
+                    <th>MAE</th>
+                    <th>MASE</th>
+                </tr><tr class="best-category" style="border-left: 4px solid #3498db;">
+            <td><strong>5</strong></td>
+            <td style="text-align:left; font-size:10px;">C2_oilex</td>
+            <td><span class="approach-badge ">Oil</span></td>
+            <td>304.47</td>
+            <td>326.35</td>
+            <td>73.8%</td>
+            <td>68.4%</td>
+            <td>4.075</td>
+            <td>3.501</td>
+            <td>0.676</td>
+        </tr><tr  style="border-left: 4px solid #e67e22;">
+            <td><strong>10</strong></td>
+            <td style="text-align:left; font-size:10px;">C2_prod</td>
+            <td><span class="approach-badge production-badge">Pro</span></td>
+            <td>304.78</td>
+            <td>326.66</td>
+            <td>73.6%</td>
+            <td>68.2%</td>
+            <td>4.123</td>
+            <td>3.6</td>
+            <td>0.695</td>
+        </tr></table>
+            <h2>📈 Approach Comparison</h2>
+            <h4>Oil Export Approach <span class="approach-badge ">5 models</span></h4>
+            <div class="performance-highlight">
+                <strong>Best Model:</strong> C1_oilex (Model 4) - AIC: 296.38, R²: 77.4%<br>
+                <strong>Average Performance:</strong> AIC: 309.5, R²: 69.9%
+            </div>
+            <h4>Production Approach <span class="approach-badge production-badge">5 models</span></h4>
+            <div class="performance-highlight">
+                <strong>Best Model:</strong> C1_prod (Model 9) - AIC: 297.04, R²: 77.2%<br>
+                <strong>Average Performance:</strong> AIC: 327.58, R²: 54.9%
+            </div>
+            <h2>📋 Model Specifications Guide</h2>
+            
+            <h4>🔸 Basic Models (A_*)</h4>
+            <ul>
+                <li><strong>A_oilex:</strong> Oil & Gas exports + Non-oil Omani exports + Re-exports + Total imports</li>
+                <li><strong>A_prod:</strong> Daily Oil Production + Non-oil Omani exports + Re-exports + Total imports</li>
+            </ul>
+            
+            <h4>🔸 Basic + Money Supply Models (B1_*/B2_*)</h4>
+            <ul>
+                <li><strong>B1_*:</strong> Basic specification + Narrow Money (M1)</li>
+                <li><strong>B2_*:</strong> Basic specification + Broad Money (M2)</li>
+            </ul>
+            
+            <h4>🔸 Comprehensive Models (C1_*/C2_*)</h4>
+            <ul>
+                <li><strong>C1_*:</strong> Basic + M1 + Oil Price (most comprehensive with M1)</li>
+                <li><strong>C2_*:</strong> Basic + M2 + Oil Price (most comprehensive with M2)</li>
+            </ul>
+            
+            <h4>🔸 Approach Differences</h4>
+            <ul>
+                <li><strong>Oil Export Approach (*_oilex):</strong> Uses oil & gas export quantities</li>
+                <li><strong>Production Approach (*_prod):</strong> Uses daily average oil production</li>
+            </ul>
+            
+            <p><em>All models include autoregressive terms: y(t-1), y(t-2), y(t-4)</em></p>
+            
+        </div>
+    </body>
+    </html>

@@ -1,0 +1,379 @@
+---
+title: 'Quarterly GDP Growth: Classical OLS With Aggregated Monthly Predictors'
+author: "Abeer"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  word_document:
+    toc: true
+    toc_depth: '3'
+  pdf_document:
+    toc: true
+    number_sections: true
+  html_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    df_print: paged
+fontsize: 12pt
+mainfont: Times New Roman
+geometry: margin=1in
+linestretch: 2
+bibliography: references.bib
+csl: apa7.csl
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+suppressPackageStartupMessages({
+  library(dplyr); library(readxl); library(lubridate); library(zoo); library(janitor)
+  library(broom); library(lmtest); library(sandwich); library(kableExtra)
+})
+```
+
+# Abstract
+
+This report examines quarterly real GDP growth using classical OLS regressions fed by **aggregated monthly predictors**. Monthly series are transformed to monthly log-growth and then aggregated to the quarter (mean of monthly growths) to create contemporaneous quarterly regressors. Each model includes autoregressive terms of the dependent variable (lags \(t-1\), \(t-2\), and \(t-4\)) to capture persistence in GDP growth. Competing specifications differ by the set of predictors, grouped into oil-export bundles and production bundles, with or without money aggregates and oil prices. Models are compared using AIC/BIC and a simple 8-quarter holdout (RMSE, MAE, MASE). Across specifications, the oil-export bundles perform best on information criteria; out-of-sample, the oil-export bundle augmented with M2 and oil prices achieves competitive forecast errors. Robust inference shows **Oil & Gaz Exports** as the most consistent positive and statistically significant driver of quarterly GDP growth once AR dynamics are controlled.
+
+# Method
+
+We model quarterly real GDP growth \(y_t\) as
+
+\[
+y_t = \alpha + \boldsymbol{\beta}^{\top}\mathbf{X}^{(Q)}_t + \phi_1 y_{t-1} + \phi_2 y_{t-2} + \phi_4 y_{t-4} + \varepsilon_t,
+\]
+
+where \(\mathbf{X}^{(Q)}_t\) are **quarterly** regressors constructed by aggregating **monthly log-growth** of each predictor *within the quarter* using the mean. This “classical” alternative **does not use MIDAS lag polynomials**; it sacrifices within‑quarter timing for parsimony and transparency.
+
+Monthly log-growth (in percent) is
+
+\[
+\Delta \ln X_m = 100\big(\ln X_m - \ln X_{m-1}\big).
+\]
+
+Quarterly regressors are formed as
+
+\[
+X^{(Q)}_{j,t} \equiv \operatorname{mean}\{\Delta \ln X_{j,m} \, : \, m \in \text{months of quarter } t\}.
+\]
+
+We compare models by AIC/BIC and by an **8‑quarter holdout** (fit on the earlier sample; predict the last 8 quarters) using **RMSE**, **MAE**, and **MASE**. We report Ljung–Box \(p\)-values for residual autocorrelation and Breusch–Pagan \(p\)-values for heteroskedasticity. To compare effect sizes, we compute standardized coefficients \(\beta^{std}_j = \beta_j \cdot \mathrm{sd}(X_j)/\mathrm{sd}(y)\). Coefficient tests use heteroskedasticity‑robust (HC1) standard errors.
+
+# Data, Transformations, and Alignment
+
+```{r data-prep}
+# --- Read data ---
+predictors1 <- read_excel("predictors.xlsx") %>%
+  clean_names() %>%
+  transmute(
+    month = as.Date(zoo::as.yearmon(month_year)),
+    tot_mer_imports    = total_recorded_merchandise_imports,
+    oil_gaz_exports    = oil_gaz_exports,
+    noil_omani_exports = non_oil_omani_exports,
+    re_exports         = re_exports,
+    noil_exports       = non_oil_exports
+  ) %>%
+  arrange(month)
+
+predictors2 <- read_excel("predictors2.xlsx") %>%
+  clean_names() %>%
+  transmute(
+    month = as.Date(zoo::as.yearmon(month_year)),
+    oil_price = average_oil_price,
+    d_avg_prod = daily_average_production,
+    gas_price  = natural_oil_gas,
+    M1 = narrow_money_m1,
+    M2 = broad_money
+  ) %>%
+  arrange(month)
+
+predictors <- merge(predictors1, predictors2, by = "month", all.x = TRUE) %>%
+  mutate(across(-month, ~ as.numeric(as.character(.))))
+
+quart_rgdp <- read_excel("quart_rgdp.xlsx") %>%
+  mutate(qtr = zoo::as.yearqtr(gsub("-", " ", year_quarter))) %>%
+  arrange(qtr) %>%
+  select(qtr, RGDP)
+
+# --- Monthly time-series ---
+m_start <- c(lubridate::year(min(predictors$month)), lubridate::month(min(predictors$month)))
+m_ts <- function(v) ts(predictors[[v]], start = m_start, frequency = 12)
+
+tot_mer_imports    <- m_ts("tot_mer_imports")
+oil_gaz_exports    <- m_ts("oil_gaz_exports")
+noil_omani_exports <- m_ts("noil_omani_exports")
+re_exports         <- m_ts("re_exports")
+noil_exports       <- m_ts("noil_exports")
+oil_price          <- m_ts("oil_price")
+d_avg_prod         <- m_ts("d_avg_prod")
+gas_price          <- m_ts("gas_price")
+M1                 <- m_ts("M1")
+M2                 <- m_ts("M2")
+
+# --- Quarterly target and growth ---
+rq_start <- c(lubridate::year(as.Date(quart_rgdp$qtr[1])),
+              lubridate::quarter(as.Date(quart_rgdp$qtr[1])))
+y_rq <- ts(quart_rgdp$RGDP, start = rq_start, frequency = 4)
+
+logdiff_pct <- function(x) 100*diff(log(pmax(as.numeric(x), 1e-9)))
+.inc_start  <- function(y, p, freq){ p2 <- p + 1; if(p2 > freq) c(y+1,1) else c(y,p2) }
+
+y_rg <- ts(logdiff_pct(y_rq), start = .inc_start(rq_start[1], rq_start[2], 4), frequency = 4)
+
+# --- Align monthly span to the quarterly growth span ---
+qy_start <- start(y_rg); qy_end <- end(y_rg)
+hf_start <- c(qy_start[1], (qy_start[2]-1)*3 + 1)
+hf_end   <- c(qy_end[1],   qy_end[2]*3)
+
+# Helper: monthly growth, aligned to [hf_start, hf_end]
+mk_m_g_aligned <- function(x_m) {
+  x_g <- ts(logdiff_pct(x_m),
+            start = .inc_start(start(x_m)[1], start(x_m)[2], 12),
+            frequency = 12)
+  window(x_g, start = hf_start, end = hf_end)
+}
+
+# Monthly growth series (for completeness; classical block aggregates these)
+tot_mer_imports_g    <- mk_m_g_aligned(tot_mer_imports)
+oil_gaz_exports_g    <- mk_m_g_aligned(oil_gaz_exports)
+noil_omani_exports_g <- mk_m_g_aligned(noil_omani_exports)
+re_exports_g         <- mk_m_g_aligned(re_exports)
+noil_exports_g       <- mk_m_g_aligned(noil_exports)
+oil_price_g          <- mk_m_g_aligned(oil_price)
+d_avg_prod_g         <- mk_m_g_aligned(d_avg_prod)
+gas_price_g          <- mk_m_g_aligned(gas_price)
+M1_g                 <- mk_m_g_aligned(M1)
+M2_g                 <- mk_m_g_aligned(M2)
+
+# Labels for presentation
+var_labels <- c(
+  tot_mer_imports_g    = "Total Recorded Merchandise Imports",
+  oil_gaz_exports_g    = "Oil & Gaz Exports",
+  noil_omani_exports_g = "Non-Oil Omani Exports",
+  re_exports_g         = "Re-Exports",
+  noil_exports_g       = "Total Non-Oil Exports",
+  oil_price_g          = "Average oil price",
+  d_avg_prod_g         = "Daily Average Oil Production",
+  gas_price_g          = "Natural Gas Price",
+  M1_g                 = "Narrow Money (M1)",
+  M2_g                 = "Broad Money (M2)"
+)
+```
+
+# Specifications (Classical, No MIDAS)
+
+We evaluate the following bundles, mirroring your custom groups:
+
+- **Oil-export bundles:** A\_oilex, B1\_oilex (add M1), B2\_oilex (add M2), C1\_oilex (add M1 + oil price), C2\_oilex (add M2 + oil price).
+- **Production bundles:** A\_prod (replace oil exports with production), B1\_prod (add M1), B2\_prod (add M2), C1\_prod (add M1 + oil price), C2\_prod (add M2 + oil price).
+
+```{r specs}
+present <- function(v) exists(v, inherits = TRUE) && is.ts(get(v, inherits = TRUE))
+
+keep_if_available <- function(v) if (all(sapply(v, present))) v else NULL
+
+A_oilex <- keep_if_available(c("oil_gaz_exports_g","noil_omani_exports_g","re_exports_g","tot_mer_imports_g"))
+B1_oilex <- keep_if_available(c(A_oilex, "M1_g"))
+B2_oilex <- keep_if_available(c(A_oilex, "M2_g"))
+C1_oilex <- keep_if_available(c(A_oilex, "M1_g", "oil_price_g"))
+C2_oilex <- keep_if_available(c(A_oilex, "M2_g", "oil_price_g"))
+
+A_prod  <- keep_if_available(c("d_avg_prod_g","noil_omani_exports_g","re_exports_g","tot_mer_imports_g"))
+B1_prod <- keep_if_available(c(A_prod, "M1_g"))
+B2_prod <- keep_if_available(c(A_prod, "M2_g"))
+C1_prod <- keep_if_available(c(A_prod, "M1_g", "oil_price_g"))
+C2_prod <- keep_if_available(c(A_prod, "M2_g", "oil_price_g"))
+
+specs_custom <- Filter(Negate(is.null), list(
+  A_oilex=A_oilex, B1_oilex=B1_oilex, B2_oilex=B2_oilex, C1_oilex=C1_oilex, C2_oilex=C2_oilex,
+  A_prod=A_prod, B1_prod=B1_prod, B2_prod=B2_prod, C1_prod=C1_prod, C2_prod=C2_prod
+))
+spec_names <- names(specs_custom)
+```
+
+# Estimation Procedure (Classical Quarterly)
+
+```{r fit-classical}
+# Aggregate monthly growth to quarterly growth (mean) and align to y_rg window
+to_q <- function(x, fun = mean) {
+  x <- window(x, start = hf_start, end = hf_end)
+  q <- stats::aggregate(x, nfrequency = 4, FUN = fun)
+  window(q, start = start(y_rg), end = end(y_rg))
+}
+
+# Fit a classical quarterly model with AR terms y_{t-1}, y_{t-2}, y_{t-4}
+fit_quarterly_spec <- function(xnames, add_ar = TRUE, fun = mean) {
+  Xlist <- lapply(xnames, function(v) to_q(get(v), fun = fun))
+  Xq    <- do.call(cbind, Xlist)
+  xq_names <- paste0(xnames, "_q")
+  colnames(Xq) <- xq_names
+
+  y  <- window(y_rg, start = start(y_rg), end = end(y_rg))
+  y1 <- stats::lag(y, -1); y2 <- stats::lag(y, -2); y4 <- stats::lag(y, -4)
+
+  Zdf <- as.data.frame(cbind(y_rg = y, y_l1 = y1, y_l2 = y2, y_l4 = y4, unname(Xq)))
+  colnames(Zdf) <- c("y_rg","y_l1","y_l2","y_l4", xq_names)
+  Zdf <- stats::na.omit(Zdf)
+
+  form <- if (add_ar) {
+    as.formula(paste("y_rg ~ y_l1 + y_l2 + y_l4 +", paste(xq_names, collapse = " + ")))
+  } else {
+    as.formula(paste("y_rg ~", paste(xq_names, collapse = " + ")))
+  }
+
+  fit <- lm(form, data = Zdf)
+
+  # 8-quarter holdout
+  n_test <- min(8, nrow(Zdf) - 20)
+  hv <- list(rmse = NA, mae = NA, mase = NA, h = 0)
+  if (n_test > 0) {
+    tr <- head(Zdf, nrow(Zdf) - n_test)
+    te <- tail(Zdf, n_test)
+    fit_tr <- lm(form, data = tr)
+    pred   <- predict(fit_tr, newdata = te)
+    ae     <- abs(te$y_rg - pred)
+    hv$rmse <- sqrt(mean((te$y_rg - pred)^2))
+    hv$mae  <- mean(ae)
+    hv$mase <- hv$mae / mean(abs(diff(tr$y_rg, lag = 4)), na.rm = TRUE)
+    hv$h    <- n_test
+  }
+
+  # Robust inference
+  Vhc1 <- sandwich::vcovHC(fit, type = "HC1")
+  tidy_rb <- broom::tidy(fit, conf.int = FALSE) %>%
+    filter(!term %in% c("(Intercept)")) %>%
+    left_join(
+      broom::tidy(lmtest::coeftest(fit, vcov. = Vhc1)) %>%
+        rename(estimate = Estimate, std.error = `Std. Error`, statistic = `t value`, p.value = `Pr(>|t|)`),
+      by = c("term" = "term")
+    )
+
+  # Diagnostics
+  lb_p <- tryCatch(Box.test(residuals(fit), lag = 10, type = "Ljung-Box")$p.value, error = function(e) NA_real_)
+  bp_p <- tryCatch(lmtest::bptest(fit)$p.value, error = function(e) NA_real_)
+
+  # Standardized betas
+  sdy <- sd(Zdf$y_rg)
+  std_beta <- setNames(numeric(length(xq_names)), xq_names)
+  for (p in xq_names) std_beta[p] <- coef(fit)[p] * sd(Zdf[[p]]) / sdy
+
+  list(fit = fit, aic = AIC(fit), bic = BIC(fit),
+       hv = hv, std_beta = std_beta, n = nrow(Zdf),
+       tidy_rb = tidy_rb, lb_p = lb_p, bp_p = bp_p)
+}
+
+# Loop all specs
+q_rows   <- list()
+q_models <- vector("list", length(specs_custom))
+for (i in seq_along(specs_custom)) {
+  lab <- spec_names[i]; xs <- specs_custom[[i]]
+  out <- fit_quarterly_spec(xs, add_ar = TRUE, fun = mean)
+  q_models[[i]] <- out
+  q_rows[[i]] <- data.frame(
+    model_id = i, group = lab, predictors = paste(xs, collapse=","),
+    AIC = out$aic, BIC = out$bic,
+    R2 = summary(out$fit)$r.squared,
+    AdjR2 = summary(out$fit)$adj.r.squared,
+    RMSE = out$hv$rmse, MAE = out$hv$mae, MASE = out$hv$mase,
+    Ljung_p = out$lb_p, BP_p = out$bp_p,
+    stringsAsFactors = FALSE
+  )
+}
+summary_table_q <- do.call(rbind, q_rows) %>%
+  arrange(AIC, MASE)
+```
+
+# Results
+
+## Model Leaderboard (Classical Quarterly)
+
+```{r leaderboard, results='asis'}
+summary_table_q %>%
+  mutate(across(c(AIC,BIC,RMSE,MAE,MASE), ~round(., 3))) %>%
+  kable(format = "html", digits = 3, caption = "Leaderboard of Classical Quarterly Models (sorted by AIC then MASE)") %>%
+  kable_styling(full_width = FALSE, position = "center")
+```
+
+## Robust Coefficients and p-values (Predictor Blocks)
+
+Coefficients below are **conditional on AR controls** \(y_{t-1}, y_{t-2}, y_{t-4}\). For brevity, AR terms are not shown in the tables.
+
+```{r coef-tables, results='asis'}
+coef_rows <- lapply(seq_along(q_models), function(i){
+  xs <- specs_custom[[i]]
+  xq <- paste0(xs, "_q")
+  rb <- q_models[[i]]$tidy_rb
+  keep <- rb$term %in% c("y_l1","y_l2","y_l4", xq)
+  rb2 <- rb[keep, ]
+  # keep only predictor rows (drop AR from the printed block)
+  rb2 <- rb2[rb2$term %in% xq, ]
+  data.frame(
+    model_id = i,
+    group = spec_names[i],
+    var = sub("_q$", "", rb2$term),
+    estimate = rb2$estimate,
+    p.value = rb2$p.value,
+    stringsAsFactors = FALSE
+  )
+})
+coef_table_q <- do.call(rbind, coef_rows) %>%
+  mutate(sig = case_when(
+    p.value < .001 ~ "***",
+    p.value < .01  ~ "**",
+    p.value < .05  ~ "*",
+    p.value < .10  ~ ".",
+    TRUE ~ ""
+  ),
+  var_label = unname(var_labels[var]))
+
+coef_table_q %>%
+  mutate(estimate = round(estimate, 6),
+         p.value = round(p.value, 6)) %>%
+  select(model_id, group, var, var_label, estimate, p.value, sig) %>%
+  arrange(group, desc(abs(estimate))) %>%
+  kable(format = "html", caption = "Robust (HC1) Coefficients by Specification (predictor rows only)") %>%
+  kable_styling(full_width = FALSE, position = "center")
+```
+
+## Standardized Effect Sizes (β\_std)
+
+```{r std-betas, results='asis'}
+std_list <- lapply(seq_along(q_models), function(i){
+  sb <- q_models[[i]]$std_beta
+  if (is.null(sb)) return(NULL)
+  data.frame(model_id = i, group = spec_names[i],
+             var = sub("_q$", "", names(sb)),
+             std_beta = as.numeric(sb),
+             stringsAsFactors = FALSE)
+})
+std_table <- do.call(rbind, std_list) %>%
+  left_join(coef_table_q %>% select(model_id, var, estimate, p.value, sig, var_label),
+            by = c("model_id","var"))
+
+std_table %>%
+  mutate(std_beta = round(std_beta, 6),
+         estimate = round(estimate, 6),
+         p.value = round(p.value, 6)) %>%
+  arrange(group, desc(abs(std_beta))) %>%
+  kable(format = "html", caption = "Standardized Betas with Robust p-values") %>%
+  kable_styling(full_width = FALSE, position = "center")
+```
+
+# Discussion
+
+The **oil-export bundles** generally dominate by AIC/BIC. Inference based on HC1 robust errors consistently identifies **Oil & Gaz Exports** as a positive and statistically significant driver of real GDP growth across oil-export specifications (e.g., A\_oilex, B1\_oilex, C1\_oilex, C2\_oilex). Money aggregates and oil prices present mixed evidence: M2 is occasionally significant in production bundles (e.g., B2\_prod), and oil price enters negatively but only marginally significant in some oil-export models. AR dynamics (lags \(t-1, t-2, t-4\)) soak up persistence; coefficients reported above are **conditional** on these AR controls.
+
+Out-of-sample, the best performers by information criteria also achieve competitive forecast errors (RMSE/MAE/MASE), with no residual autocorrelation or strong heteroskedasticity per Ljung–Box and Breusch–Pagan tests.
+
+# Reproducibility Notes
+
+- Changing the quarterly aggregator from `mean` to `sum` (for flow variables) or to the `last` month can be done by passing a different `fun` to `fit_quarterly_spec`.
+- The classical block intentionally **excludes MIDAS lag polynomials**. A parallel MIDAS block can be added to this Rmd to compare timing‑rich distributed‑lag models versus the aggregated approach.
+
+# Appendix: Save Tables
+
+```{r save-tables, eval=FALSE}
+readr::write_csv(summary_table_q, "classical_leaderboard.csv")
+readr::write_csv(coef_table_q, "classical_coefs_robust.csv")
+readr::write_csv(std_table, "classical_std_betas_robust.csv")
+```
